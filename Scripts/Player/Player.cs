@@ -1,5 +1,6 @@
 using Godot;
 using CyberPlant.Core;
+using System.Threading.Tasks.Dataflow;
 
 namespace CyberPlant.Player;
 
@@ -79,5 +80,10 @@ public partial class Player : CharacterBody2D
 
         CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
+    }
+
+    public void SetSpawnPosition(Vector2 spawnPosition)
+    {
+        GlobalPosition = spawnPosition;
     }
 }

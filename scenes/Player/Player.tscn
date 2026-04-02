@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl3piyra5slg"]
+
+[ext_resource type="Script" uid="uid://cqbyln36j0o1c" path="res://Scripts/Player/Player.cs" id="1_s0eop"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s0eop"]
+radius = 18.0
+height = 88.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_s0eop")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_s0eop")
+
+[node name="TempBodyVisual (Replace with Sprite)" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -44, -8, -42, -13, -38, -16, -34, -18, -29, -18, 27, -16, 35, -13, 39, -6, 43, -2, 44, 0, 44, 6, 43, 11, 40, 16, 35, 18, 29, 18, 26, 18, -27, 16, -34, 14, -38, 8, -42, 4, -44)
+
+[node name="Camera2D" type="Camera2D" parent="."]

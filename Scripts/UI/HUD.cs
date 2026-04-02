@@ -1,6 +1,7 @@
+#nullable enable
 using Godot;
 using CyberPlant.Core;
-using CyberPlant.Player;
+using PlayerCharacter = CyberPlant.Player.Player;
 
 namespace CyberPlant.UI;
 
@@ -10,7 +11,7 @@ public partial class HUD : CanvasLayer
     [Export] public Label? WaterLabel;
 
     private GameManager? _gameManager;
-    private Player? _player;
+    private PlayerCharacter? _player;
 
     public override void _Ready()
     {
@@ -27,7 +28,7 @@ public partial class HUD : CanvasLayer
 
         OnWaterChanged(_gameManager.Water);
 
-        if (_gameManager.CurrentPlayer is Player existingPlayer)
+        if (_gameManager.CurrentPlayer is PlayerCharacter existingPlayer)
         {
             BindPlayer(existingPlayer);
         }
@@ -35,17 +36,23 @@ public partial class HUD : CanvasLayer
 
     private void OnPlayerRegistered(Node2D registeredPlayer)
     {
-        if (registeredPlayer is Player player)
+        if (registeredPlayer is PlayerCharacter player)
         {
             BindPlayer(player);
         }
     }
 
-    private void BindPlayer(Player player)
+    private void BindPlayer(PlayerCharacter player)
     {
+        if (_player != null && _player.IsConnected(PlayerCharacter.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged))))
+        {
+            _player.Disconnect(PlayerCharacter.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged)));
+        }
+
         _player = player;
+
         // TODO (Ben): Add stamina/ability widgets here once combat systems are defined.
-        _player.Connect(Player.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged)));
+        _player.Connect(PlayerCharacter.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged)));
         OnHealthChanged(_player.CurrentHealth, _player.MaxHealth);
     }
 
