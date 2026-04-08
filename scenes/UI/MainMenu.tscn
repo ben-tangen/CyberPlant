@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=3 uid="uid://dq482p8yo2uej"]
+
+[ext_resource type="Script" uid="uid://dhqaxrxpvr2y" path="res://Scripts/UI/MainMenu.cs" id="1_mjmdf"]
+[ext_resource type="Texture2D" uid="uid://bon1ed2wiun0m" path="res://assets/Backgrounds/TitlePage.jpg" id="2_72sra"]
+[ext_resource type="FontFile" uid="uid://ci2liqul0kfl1" path="res://assets/Fonts/cyberpunk/Cyberpunk.ttf" id="3_t6w0q"]
+[ext_resource type="FontFile" uid="uid://dufru3x6ud1tg" path="res://assets/Fonts/corpta-demo/Corpta DEMO.otf" id="4_k8um8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6w0q"]
+bg_color = Color(0.11804075, 0.1384854, 0.1691522, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.09019608, 0.09803922, 0.13333334, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jex3y"]
+bg_color = Color(0.3764706, 0.3764706, 0.3764706, 0.72156864)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8um8"]
+bg_color = Color(0.11764706, 0.13725491, 0.17254902, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.09019608, 0.09803922, 0.13333334, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_744d7"]
+bg_color = Color(0.3764706, 0.3764706, 0.3764706, 0.72156864)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("StartButton", "QuitButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mjmdf")
+FirstLevelScenePath = "uid://cdnwhw0evm842"
+StartButton = NodePath("CenterContainer/MainContainer/StartButton")
+QuitButton = NodePath("CenterContainer/MainContainer/QuitButton")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_72sra")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.19607843)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 205.0
+offset_right = 1152.0
+offset_bottom = 288.0
+theme_override_colors/font_color = Color(1, 1, 0.1764706, 1)
+theme_override_fonts/font = ExtResource("3_t6w0q")
+theme_override_font_sizes/font_size = 80
+text = "CYBERPLANT"
+horizontal_alignment = 1
+
+[node name="TitleShadow" type="Label" parent="TitleLabel"]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 1162.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(3.2247603e-06, 0.7455979, 0.46622366, 1)
+theme_override_fonts/font = ExtResource("3_t6w0q")
+theme_override_font_sizes/font_size = 80
+text = "CYBERPLANT"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_top = 340.0
+offset_right = 1151.0
+offset_bottom = 426.0
+
+[node name="MainContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="StartButton" type="Button" parent="CenterContainer/MainContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.320337, 0.85401976, 0.5014383, 1)
+theme_override_fonts/font = ExtResource("4_k8um8")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_t6w0q")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jex3y")
+text = "START GAME"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/MainContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.31764707, 0.8509804, 0.49803922, 1)
+theme_override_fonts/font = ExtResource("4_k8um8")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_k8um8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_744d7")
+text = "QUIT GAME"

@@ -1,3 +1,4 @@
+#nullable enable
 using Godot;
 using CyberPlant.Core;
 
@@ -7,6 +8,22 @@ public partial class MainMenu : Control
 {
     [Export(PropertyHint.File, "*.tscn")]
     public string FirstLevelScenePath { get; set; } = "res://Scenes/Levels/Level01.tscn";
+
+    [Export] public Button? StartButton;
+    [Export] public Button? QuitButton;
+
+    public override void _Ready()
+    {
+        if (StartButton != null)
+        {
+            StartButton.Pressed += OnStartButtonPressed;
+        }
+
+        if (QuitButton != null)
+        {
+            QuitButton.Pressed += OnQuitButtonPressed;
+        }
+    }
 
     private void OnStartButtonPressed()
     {
