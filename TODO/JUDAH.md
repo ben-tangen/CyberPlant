@@ -5,6 +5,7 @@
 | J1 | One enemy working (base enemy + attack) | Not Started | P2, B1 | J2, T05 | Use shared damage interface from player/combat systems. |
 | J2 | Enemy variations (3-5) + tuning | Not Started | J1, B3 | J3, T13 | Build from base enemy scene inheritance. |
 | J3 | Boss prototype | Not Started | J2, B3 | T13 | Define phase hooks early to avoid rework. |
+| J4 | Structure Design | Not started | Unblocked | Level Building | Build structures such as walls, floors, ceilngs, etc for level building. | 
 
 ## External blockers for Judah
 - `P2` Player movement/collision baseline from Peyton

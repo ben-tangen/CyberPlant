@@ -1,19 +1,74 @@
-[gd_scene load_steps=2 format=3 uid="uid://bo1jyl08vefqt"]
+[gd_scene load_steps=3 format=3 uid="uid://bo1jyl08vefqt"]
 
 [ext_resource type="Script" uid="uid://b5kpmcg7a8ypp" path="res://Scripts/UI/HUD.cs" id="1_omqfp"]
+[ext_resource type="Texture2D" uid="uid://b6babqh2h87de" path="res://assets/icon.svg" id="2_placeholder"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_omqfp")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -141.0
+offset_right = 127.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="WaterLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Water: 0"
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="InventoryLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "Inventory"
+
+[node name="InventoryRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Slot1" type="PanelContainer" parent="MarginContainer/VBoxContainer/InventoryRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/InventoryRow/Slot1"]
+layout_mode = 2
+texture = ExtResource("2_placeholder")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot2" type="PanelContainer" parent="MarginContainer/VBoxContainer/InventoryRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/InventoryRow/Slot2"]
+modulate = Color(1, 1, 1, 0.2)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="Slot3" type="PanelContainer" parent="MarginContainer/VBoxContainer/InventoryRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/InventoryRow/Slot3"]
+modulate = Color(1, 1, 1, 0.2)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="Slot4" type="PanelContainer" parent="MarginContainer/VBoxContainer/InventoryRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/InventoryRow/Slot4"]
+modulate = Color(1, 1, 1, 0.2)
+layout_mode = 2
+stretch_mode = 5
