@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://c28wp98rrj8v"]
+[gd_scene load_steps=5 format=3 uid="uid://c28wqa8rrj8v"]
 
-[ext_resource type="Script" path="res://Scripts/Enemies/Enemy.cs" id="1_q2b0k"]
-[ext_resource type="Script" path="res://Scripts/Enemies/EnemyAI.cs" id="2_ai"]
+[ext_resource type="Script" uid="uid://kfjwcrsqjwd6" path="res://Scripts/Enemies/Enemy.cs" id="1_q2b0k"]
+[ext_resource type="Script" uid="uid://d16ruoho8ph21" path="res://Scripts/Enemies/EnemyAI.cs" id="2_ai"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k0b0k"]
 radius = 14.0
 height = 50.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k0b0k"]
-radius = 28.0
+radius = 23.537205
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_q2b0k")
