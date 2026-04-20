@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://Scenes/Player/Player.tscn" id="1_882ua"]
 [ext_resource type="PackedScene" uid="uid://bo1jyl08vefqt" path="res://Scenes/UI/HUD.tscn" id="2_ll5b2"]
 [ext_resource type="PackedScene" uid="uid://b84wd847gx6sf" path="res://Scenes/Pickups/WaterPickup.tscn" id="3_ll5b2"]
-[ext_resource type="PackedScene" uid="uid://c28wp98rrj8v" path="res://Scenes/Enemies/Enemy.tscn" id="4_enemy"]
+[ext_resource type="PackedScene" uid="uid://c28wqa8rrj8v" path="res://Scenes/Enemies/Enemy.tscn" id="4_enemy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvhti"]
 size = Vector2(1153, 87)
@@ -25,7 +25,7 @@ position = Vector2(-527, 139)
 position = Vector2(298, 138)
 
 [node name="Enemy" parent="World/Ground" instance=ExtResource("4_enemy")]
-position = Vector2(100, 150)
+position = Vector2(242, 169)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 position = Vector2(0.5, 281.5)

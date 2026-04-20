@@ -46,6 +46,7 @@ public partial class EnemyAI : Node
         if (distanceToPlayer <= AttackRange)
         {
             Attack();
+            StopMoving();
         }
         else if (distanceToPlayer <= DetectionRange)
         {
@@ -56,6 +57,7 @@ public partial class EnemyAI : Node
             Patrol();
         }
 
+        _enemy.UpdateVisualState(_enemyBody.Velocity.X);
         _timeSinceLastAttack += (float)delta;
     }
 
@@ -106,5 +108,18 @@ public partial class EnemyAI : Node
         }
 
         _timeSinceLastAttack = 0.0f;
+    }
+
+    private void StopMoving()
+    {
+        if (_enemyBody == null)
+        {
+            return;
+        }
+
+        Vector2 velocity = _enemyBody.Velocity;
+        velocity.X = 0.0f;
+        _enemyBody.Velocity = velocity;
+        _enemyBody.MoveAndSlide();
     }
 }

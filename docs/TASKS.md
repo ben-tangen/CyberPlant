@@ -27,20 +27,20 @@
 ## Task Checklist
 
 ### Core
-- [ ] Player movement
-- [ ] Player attack system
-- [ ] Collision system
-- [ ] Basic enemy
+- [x] Player movement
+- [x] Player attack system
+- [x] Collision system
+- [x] Basic enemy
 - [ ] Combat feedback
 
 ### Gameplay
 - [ ] 3–5 enemy types
 - [ ] Weapon switching
-- [ ] Water currency
+- [x] Water currency
 - [ ] Shop system
 
 ### Levels
-- [ ] Level 1
+- [x] Level 1
 - [ ] Level 2
 - [ ] Level 3
 
@@ -50,9 +50,9 @@
 - [ ] Boss 3
 
 ### UI
-- [ ] Health bar
-- [ ] Currency display
-- [ ] Main menu
+- [x] Health bar
+- [x] Currency display
+- [x] Main menu
 
 ### Polish
 - [ ] Sound effects

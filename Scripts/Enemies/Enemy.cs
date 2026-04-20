@@ -18,16 +18,45 @@ public partial class Enemy : CharacterBody2D, IDamageable
 
     public int CurrentHealth { get; private set; }
 
+    private AnimatedSprite2D? _animatedSprite;
     private ProgressBar? _healthBar;
 
     public override void _Ready()
     {
         AddToGroup("enemy");
 
+        _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
         _healthBar = GetNodeOrNull<ProgressBar>("HealthBar");
         CurrentHealth = MaxHealth;
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
+        _animatedSprite?.Play("idle");
         UpdateHealthBarDisplay();
+    }
+
+    public void UpdateVisualState(float horizontalVelocity)
+    {
+        if (_animatedSprite == null)
+        {
+            return;
+        }
+
+        if (Mathf.IsZeroApprox(horizontalVelocity))
+        {
+            if (_animatedSprite.Animation != "idle")
+            {
+                _animatedSprite.Play("idle");
+            }
+
+            _animatedSprite.FlipH = false;
+            return;
+        }
+
+        if (_animatedSprite.Animation != "walk")
+        {
+            _animatedSprite.Play("walk");
+        }
+
+        _animatedSprite.FlipH = horizontalVelocity > 0.0f;
     }
 
     public void TakeDamage(int amount)
