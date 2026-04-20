@@ -43,7 +43,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("StartButton", "QuitButton")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("TitleLabel", "StartButton", "QuitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,6 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mjmdf")
 FirstLevelScenePath = "uid://cdnwhw0evm842"
+TitleLabel = NodePath("TitleLabel")
 StartButton = NodePath("CenterContainer/MainContainer/StartButton")
 QuitButton = NodePath("CenterContainer/MainContainer/QuitButton")
 
@@ -67,6 +68,8 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="Overlay" type="ColorRect" parent="."]
+texture_filter = 1
+texture_repeat = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
