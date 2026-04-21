@@ -32,10 +32,11 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_k0b0k"]
-radius = 69.02898
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6bayv"]
+radius = 37.0
+height = 144.0
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy1" type="CharacterBody2D"]
 script = ExtResource("1_q2b0k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -56,7 +57,8 @@ offset_bottom = -28.0
 [node name="DamageArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
-shape = SubResource("CircleShape2D_k0b0k")
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_6bayv")
 
 [node name="EnemyAI" type="Node" parent="."]
 script = ExtResource("2_ai")

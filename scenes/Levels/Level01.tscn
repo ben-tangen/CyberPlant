@@ -1,37 +1,92 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdnwhw0evm842"]
+[gd_scene load_steps=12 format=3 uid="uid://cdnwhw0evm842"]
 
 [ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://Scenes/Player/Player.tscn" id="1_882ua"]
+[ext_resource type="Texture2D" uid="uid://cr4uqivdas1h" path="res://assets/Backgrounds/Level01.jpg" id="1_rkq7q"]
 [ext_resource type="PackedScene" uid="uid://bo1jyl08vefqt" path="res://Scenes/UI/HUD.tscn" id="2_ll5b2"]
 [ext_resource type="PackedScene" uid="uid://b84wd847gx6sf" path="res://Scenes/Pickups/WaterPickup.tscn" id="3_ll5b2"]
-[ext_resource type="PackedScene" uid="uid://c28wqa8rrj8v" path="res://Scenes/Enemies/Enemy.tscn" id="4_enemy"]
+[ext_resource type="PackedScene" uid="uid://c28wqa8rrj8v" path="res://Scenes/Enemies/Enemy1.tscn" id="4_enemy"]
+[ext_resource type="Texture2D" uid="uid://cq1fqypkxxnt1" path="res://assets/other/platform1.png" id="5_platform"]
+[ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="6_shopui"]
+[ext_resource type="Script" path="res://Scripts/Shop/ShopArea.cs" id="7_shoparea"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvhti"]
-size = Vector2(1154, 87)
+size = Vector2(1202, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform3"]
+size = Vector2(344, 84)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
+size = Vector2(140, 120)
 
 [node name="Level01" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 1178.0
+offset_bottom = 721.0
+texture = ExtResource("1_rkq7q")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Player" parent="." instance=ExtResource("1_882ua")]
 
 [node name="HUD" parent="." instance=ExtResource("2_ll5b2")]
+
+[node name="ShopUI" parent="." instance=ExtResource("6_shopui")]
 
 [node name="World" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="World"]
 
 [node name="WaterPickup2" parent="World/Ground" instance=ExtResource("3_ll5b2")]
-position = Vector2(-527, 139)
+position = Vector2(-528, 241)
 
 [node name="WaterPickup" parent="World/Ground" instance=ExtResource("3_ll5b2")]
-position = Vector2(298, 138)
+position = Vector2(302, 242)
 
 [node name="Enemy" parent="World/Ground" instance=ExtResource("4_enemy")]
-position = Vector2(221, 165)
+position = Vector2(218, 269)
+
+[node name="ShopArea" type="Area2D" parent="World/Ground"]
+position = Vector2(-120, 286)
+script = ExtResource("7_shoparea")
+ShopUiPath = NodePath("../../../ShopUI")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/ShopArea"]
+position = Vector2(0, 24)
+shape = SubResource("RectangleShape2D_shop")
+
+[node name="ShopSign" type="Polygon2D" parent="World/Ground/ShopArea"]
+color = Color(0.05, 0.58, 0.75, 1)
+polygon = PackedVector2Array(-34, -56, 34, -56, 34, 4, -34, 4)
+
+[node name="ShopPost" type="Polygon2D" parent="World/Ground/ShopArea"]
+color = Color(0.15, 0.15, 0.18, 1)
+polygon = PackedVector2Array(-6, 4, 6, 4, 6, 72, -6, 72)
+
+[node name="PlatformTile1" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-272.00003, 548)
+scale = Vector2(7, 7)
+texture = ExtResource("5_platform")
+
+[node name="PlatformTile2" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(328, 548)
+scale = Vector2(7, 7)
+texture = ExtResource("5_platform")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
-position = Vector2(1, 281.5)
+position = Vector2(21, 381)
 shape = SubResource("RectangleShape2D_tvhti")
 
-[node name="Polygon2D" type="Polygon2D" parent="World"]
-position = Vector2(5, 1)
-color = Color(0.27, 0.10071001, 0.0026999975, 1)
-polygon = PackedVector2Array(-574, 239, -575, 323, 576, 324, 577, 238)
+[node name="PlatformTile3" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(942, 533)
+scale = Vector2(4, 4)
+texture = ExtResource("5_platform")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(938, 455)
+shape = SubResource("RectangleShape2D_platform3")

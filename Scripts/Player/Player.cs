@@ -13,7 +13,7 @@ public partial class Player : CharacterBody2D, IDamageable
     public delegate void DiedEventHandler();
 
     [Export] public float MoveSpeed { get; set; } = 220.0f;
-    [Export] public float JumpVelocity { get; set; } = -380.0f;
+    [Export] public float JumpVelocity { get; set; } = -650.0f;
 
     [Export] public int MaxHealth { get; set; } = 100;
     [Export] public int StartingHealth { get; set; } = 100;

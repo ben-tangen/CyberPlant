@@ -74,6 +74,23 @@ public partial class GameManager : Node
         EmitSignal(SignalName.WaterChanged, Water);
     }
 
+    public bool TrySpendWater(int amount)
+    {
+        if (amount <= 0)
+        {
+            return true;
+        }
+
+        if (Water < amount)
+        {
+            return false;
+        }
+
+        Water -= amount;
+        EmitSignal(SignalName.WaterChanged, Water);
+        return true;
+    }
+
     public void SetWater(int amount)
     {
         Water = Mathf.Max(0, amount);

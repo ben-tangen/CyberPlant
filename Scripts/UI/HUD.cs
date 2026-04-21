@@ -8,7 +8,7 @@ namespace CyberPlant.UI;
 public partial class HUD : CanvasLayer
 {
     private const string HealthBarPath = "MarginContainer/VBoxContainer/HealthBar";
-    private const string WaterLabelPath = "MarginContainer/VBoxContainer/WaterLabel";
+    private const string WaterLabelPath = "WaterContainer/WaterLabel";
     private const string InventoryRowPath = "MarginContainer/VBoxContainer/InventoryRow";
 
     private static readonly string[] InventorySlotPanelPaths =
