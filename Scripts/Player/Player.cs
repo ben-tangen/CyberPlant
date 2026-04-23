@@ -1,3 +1,4 @@
+#nullable enable
 using Godot;
 using CyberPlant.Core;
 using CyberPlant.Combat;
@@ -6,6 +7,13 @@ namespace CyberPlant.Player;
 
 public partial class Player : CharacterBody2D, IDamageable
 {
+    private const string IdleAnimation = "idle";
+    private const string IdleArmedAnimation = "idle_armed";
+    private const string WalkAnimation = "walk";
+    private const string WalkArmedAnimation = "walk_armed";
+    private const string AttackAnimation = "attack";
+    private const string AttackArmedAnimation = "attack_armed";
+
     [Signal]
     public delegate void HealthChangedEventHandler(int currentHealth, int maxHealth);
 
@@ -13,7 +21,10 @@ public partial class Player : CharacterBody2D, IDamageable
     public delegate void DiedEventHandler();
 
     [Export] public float MoveSpeed { get; set; } = 220.0f;
-    [Export] public float JumpVelocity { get; set; } = -650.0f;
+    [Export] public float JumpVelocity { get; set; } = -700.0f;
+    [Export] public float FallGravityMultiplier { get; set; } = 1.8f;
+    [Export] public float JumpReleaseGravityMultiplier { get; set; } = 2.4f;
+    [Export] public float MaxFallSpeed { get; set; } = 1100.0f;
 
     [Export] public int MaxHealth { get; set; } = 100;
     [Export] public int StartingHealth { get; set; } = 100;
@@ -21,17 +32,21 @@ public partial class Player : CharacterBody2D, IDamageable
     public int CurrentHealth { get; private set; }
 
     private float _gravity;
+    private AnimatedSprite2D? _animatedSprite;
     private WeaponController? _weaponController;
     private GameManager? _gameManager;
-    private Node2D? _weaponVisual;
+    private Sprite2D? _weaponVisual;
     private double _weaponAnimationTime = 0.0;
     private bool _isWeaponAnimating = false;
+    private bool _isFacingRight = true;
+    private bool _hasActiveWeapon = false;
 
     public override void _Ready()
     {
         AddToGroup("player");
 
         _gravity = (float)ProjectSettings.GetSetting("physics/2d/default_gravity");
+        _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
         CurrentHealth = Mathf.Clamp(StartingHealth, 0, MaxHealth);
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
 
@@ -39,12 +54,14 @@ public partial class Player : CharacterBody2D, IDamageable
         _gameManager?.RegisterPlayer(this);
 
         _weaponController = GetNodeOrNull<WeaponController>("WeaponController");
-        _weaponVisual = GetNodeOrNull<Node2D>("WeaponVisual");
+        _weaponVisual = GetNodeOrNull<Sprite2D>("WeaponVisual");
         if (_gameManager != null)
         {
             UpdateActiveWeapon();
             _gameManager.Connect(GameManager.SignalName.ActiveInventorySlotChanged, new Callable(this, nameof(OnActiveInventorySlotChanged)));
         }
+
+        UpdateVisualState(0.0f);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -54,9 +71,25 @@ public partial class Player : CharacterBody2D, IDamageable
         float moveInput = Input.GetAxis("move_left", "move_right");
         velocity.X = moveInput * MoveSpeed;
 
+        if (!Mathf.IsZeroApprox(moveInput))
+        {
+            _isFacingRight = moveInput > 0.0f;
+        }
+
         if (!IsOnFloor())
         {
-            velocity.Y += _gravity * (float)delta;
+            float gravityMultiplier = 1.0f;
+            if (velocity.Y > 0.0f)
+            {
+                gravityMultiplier = FallGravityMultiplier;
+            }
+            else if (velocity.Y < 0.0f && !Input.IsActionPressed("jump"))
+            {
+                gravityMultiplier = JumpReleaseGravityMultiplier;
+            }
+
+            velocity.Y += _gravity * gravityMultiplier * (float)delta;
+            velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
         }
 
         if (Input.IsActionJustPressed("jump") && IsOnFloor())
@@ -92,6 +125,7 @@ public partial class Player : CharacterBody2D, IDamageable
             }
         }
 
+        UpdateVisualState(moveInput);
         Velocity = velocity;
         MoveAndSlide();
     }
@@ -134,6 +168,7 @@ public partial class Player : CharacterBody2D, IDamageable
     {
         _isWeaponAnimating = true;
         _weaponAnimationTime = 0.0;
+        UpdateVisualState(Velocity.X);
     }
 
     private void UpdateActiveWeapon()
@@ -150,11 +185,48 @@ public partial class Player : CharacterBody2D, IDamageable
             _ => null,
         };
 
+        _hasActiveWeapon = weapon != null;
         _weaponController.SetWeapon(weapon);
+        UpdateVisualState(Velocity.X);
     }
 
     public void SetSpawnPosition(Vector2 spawnPosition)
     {
         GlobalPosition = spawnPosition;
+    }
+
+    private void UpdateVisualState(float moveInput)
+    {
+        if (_animatedSprite == null)
+        {
+            return;
+        }
+
+        string animationName;
+        if (_isWeaponAnimating)
+        {
+            animationName = _hasActiveWeapon ? AttackArmedAnimation : AttackAnimation;
+        }
+        else if (Mathf.IsZeroApprox(moveInput))
+        {
+            animationName = _hasActiveWeapon ? IdleArmedAnimation : IdleAnimation;
+        }
+        else
+        {
+            animationName = _hasActiveWeapon ? WalkArmedAnimation : WalkAnimation;
+        }
+
+        if (_animatedSprite.Animation != animationName)
+        {
+            _animatedSprite.Play(animationName);
+        }
+
+        _animatedSprite.FlipH = !_isFacingRight;
+
+        if (_weaponVisual != null)
+        {
+            _weaponVisual.Visible = false;
+            _weaponVisual.FlipH = !_isFacingRight;
+        }
     }
 }

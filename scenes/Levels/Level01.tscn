@@ -7,16 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://c28wqa8rrj8v" path="res://Scenes/Enemies/Enemy1.tscn" id="4_enemy"]
 [ext_resource type="Texture2D" uid="uid://cq1fqypkxxnt1" path="res://assets/other/platform1.png" id="5_platform"]
 [ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="6_shopui"]
-[ext_resource type="Script" path="res://Scripts/Shop/ShopArea.cs" id="7_shoparea"]
+[ext_resource type="Script" uid="uid://yf7jtw6hls05" path="res://Scripts/Shop/ShopArea.cs" id="7_shoparea"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
+size = Vector2(140, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvhti"]
 size = Vector2(1202, 86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_platform3"]
 size = Vector2(344, 84)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
-size = Vector2(140, 120)
 
 [node name="Level01" type="Node2D"]
 
@@ -30,6 +30,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="Player" parent="." instance=ExtResource("1_882ua")]
+scale = Vector2(1.5, 1.5)
 
 [node name="HUD" parent="." instance=ExtResource("2_ll5b2")]
 
@@ -46,7 +47,7 @@ position = Vector2(-528, 241)
 position = Vector2(302, 242)
 
 [node name="Enemy" parent="World/Ground" instance=ExtResource("4_enemy")]
-position = Vector2(218, 269)
+position = Vector2(220, 200)
 
 [node name="ShopArea" type="Area2D" parent="World/Ground"]
 position = Vector2(-120, 286)
@@ -58,8 +59,19 @@ position = Vector2(0, 24)
 shape = SubResource("RectangleShape2D_shop")
 
 [node name="ShopSign" type="Polygon2D" parent="World/Ground/ShopArea"]
-color = Color(0.05, 0.58, 0.75, 1)
+color = Color(0.8508952, 0.0006326306, 0.861734, 1)
 polygon = PackedVector2Array(-34, -56, 34, -56, 34, 4, -34, 4)
+
+[node name="ShopLabel" type="Label" parent="World/Ground/ShopArea"]
+offset_left = -30.0
+offset_top = -47.0
+offset_right = 31.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ShopPost" type="Polygon2D" parent="World/Ground/ShopArea"]
 color = Color(0.15, 0.15, 0.18, 1)

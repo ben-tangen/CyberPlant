@@ -1,36 +1,122 @@
-[gd_scene load_steps=4 format=3 uid="uid://cl3piyra5slg"]
+[gd_scene load_steps=18 format=3 uid="uid://cl3piyra5slg"]
 
 [ext_resource type="Script" uid="uid://cqbyln36j0o1c" path="res://Scripts/Player/Player.cs" id="1_s0eop"]
-[ext_resource type="Script" path="res://Scripts/Combat/WeaponController.cs" id="2_weapon"]
+[ext_resource type="Script" uid="uid://d1th8sppxw6go" path="res://Scripts/Combat/WeaponController.cs" id="2_weapon"]
+[ext_resource type="Texture2D" uid="uid://dusmum05wlgiv" path="res://assets/player/player_front.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://4bw0chls8bf7" path="res://assets/player/player_move1.png" id="4_walk1"]
+[ext_resource type="Texture2D" uid="uid://c2hhng20pbm4o" path="res://assets/player/player_move2.png" id="5_walk2"]
+[ext_resource type="Texture2D" uid="uid://day40wgolmh3a" path="res://assets/player/player_move3.png" id="6_walk3"]
+[ext_resource type="Texture2D" uid="uid://cq86y7g5sj33f" path="res://assets/player/player_move4.png" id="7_walk4"]
+[ext_resource type="Texture2D" uid="uid://bn85hmoyr5pai" path="res://assets/player/player_move1_gun.png" id="8_walk1_gun"]
+[ext_resource type="Texture2D" uid="uid://pqactskc80pk" path="res://assets/player/player_move2_gun.png" id="9_walk2_gun"]
+[ext_resource type="Texture2D" uid="uid://cid7rca5ud2la" path="res://assets/player/player_move3_gun.png" id="10_walk3_gun"]
+[ext_resource type="Texture2D" uid="uid://bvqovpnevk1p3" path="res://assets/player/player_move4_gun.png" id="11_walk4_gun"]
+[ext_resource type="Texture2D" uid="uid://dnwt5el1tt1ws" path="res://assets/player/player_punch.png" id="12_attack"]
+[ext_resource type="Texture2D" uid="uid://067tpewimbu3" path="res://assets/player/player_kick_gun.png" id="13_attack_gun"]
+[ext_resource type="Texture2D" uid="uid://ckgb2emxhfe36" path="res://assets/player/plant_gun.png" id="14_weapon"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s0eop"]
-radius = 18.0
-height = 88.0
+radius = 26.0
+height = 78.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s0eop"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_attack")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_attack_gun")
+}],
+"loop": false,
+"name": &"attack_armed",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_walk1_gun")
+}],
+"loop": true,
+"name": &"idle_armed",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_walk4")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_walk1_gun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_walk2_gun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_walk3_gun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_walk4_gun")
+}],
+"loop": true,
+"name": &"walk_armed",
+"speed": 8.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s0eop"]
-radius = 30.0
+radius = 11.18034
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_s0eop")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, -28)
 shape = SubResource("CapsuleShape2D_s0eop")
 
-[node name="TempBodyVisual (Replace with Sprite)" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0, -44, -8, -42, -13, -38, -16, -34, -18, -29, -18, 27, -16, 35, -13, 39, -6, 43, -2, 44, 0, 44, 6, 43, 11, 40, 16, 35, 18, 29, 18, 26, 18, -27, 16, -34, 14, -38, 8, -42, 4, -44)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -31)
+scale = Vector2(0.55, 0.55)
+sprite_frames = SubResource("SpriteFrames_s0eop")
+animation = &"idle_armed"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="WeaponVisual" type="Node2D" parent="."]
-position = Vector2(18, -6)
-rotation = 0.0
-
-[node name="Polygon2D" type="Polygon2D" parent="WeaponVisual"]
-color = Color(0.2, 0.8, 0.2, 1)
-polygon = PackedVector2Array(0, 14, -7, 10, -10, -8, -6, -20, 0, -28, 6, -20, 10, -8, 7, 10)
+[node name="WeaponVisual" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(18, -14)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("14_weapon")
 
 [node name="WeaponController" type="Area2D" parent="."]
 script = ExtResource("2_weapon")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponController"]
+position = Vector2(24, -42)
 shape = SubResource("CircleShape2D_s0eop")
