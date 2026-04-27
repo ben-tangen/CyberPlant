@@ -20,7 +20,7 @@ public partial class Player : CharacterBody2D, IDamageable
     [Signal]
     public delegate void DiedEventHandler();
 
-    [Export] public float MoveSpeed { get; set; } = 220.0f;
+    [Export] public float MoveSpeed { get; set; } = 300.0f;
     [Export] public float JumpVelocity { get; set; } = -700.0f;
     [Export] public float FallGravityMultiplier { get; set; } = 1.8f;
     [Export] public float JumpReleaseGravityMultiplier { get; set; } = 2.4f;
@@ -29,6 +29,8 @@ public partial class Player : CharacterBody2D, IDamageable
     [Export] public float DamageKnockbackDecay { get; set; } = 1250.0f;
     [Export] public float DamageKnockbackLift { get; set; } = 120.0f;
     [Export] public float DamageFlashDuration { get; set; } = 0.10f;
+    [Export] public float FallDeathY { get; set; } = 3200.0f;
+    [Export] public Vector2 RespawnPosition { get; set; } = Vector2.Zero;
 
     [Export] public int MaxHealth { get; set; } = 100;
     [Export] public int StartingHealth { get; set; } = 100;
@@ -46,10 +48,13 @@ public partial class Player : CharacterBody2D, IDamageable
     private bool _hasActiveWeapon = false;
     private float _damageFlashRemaining;
     private float _damageKnockbackVelocityX;
+    private Vector2 _levelStartPosition;
+    private bool _isRespawning;
 
     public override void _Ready()
     {
         AddToGroup("player");
+        _levelStartPosition = RespawnPosition == Vector2.Zero ? GlobalPosition : RespawnPosition;
 
         _gravity = (float)ProjectSettings.GetSetting("physics/2d/default_gravity");
         _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
@@ -72,6 +77,12 @@ public partial class Player : CharacterBody2D, IDamageable
 
     public override void _PhysicsProcess(double delta)
     {
+        if (GlobalPosition.Y >= FallDeathY)
+        {
+            RespawnAtLevelStart();
+            return;
+        }
+
         float dt = (float)delta;
         Vector2 velocity = Velocity;
 
@@ -167,6 +178,7 @@ public partial class Player : CharacterBody2D, IDamageable
         if (CurrentHealth == 0)
         {
             EmitSignal(SignalName.Died);
+            RespawnAtLevelStart();
         }
     }
 
@@ -217,6 +229,28 @@ public partial class Player : CharacterBody2D, IDamageable
     public void SetSpawnPosition(Vector2 spawnPosition)
     {
         GlobalPosition = spawnPosition;
+        _levelStartPosition = spawnPosition;
+    }
+
+    private void RespawnAtLevelStart()
+    {
+        if (_isRespawning)
+        {
+            return;
+        }
+
+        _isRespawning = true;
+        GlobalPosition = _levelStartPosition;
+        Velocity = Vector2.Zero;
+        _damageKnockbackVelocityX = 0.0f;
+        _damageFlashRemaining = 0.0f;
+        _isWeaponAnimating = false;
+        _weaponAnimationTime = 0.0;
+        CurrentHealth = MaxHealth;
+        EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
+        ApplyDamageTint(Colors.White);
+        UpdateVisualState(0.0f);
+        _isRespawning = false;
     }
 
     private void TriggerDamageFeedback(Vector2? attackerPosition)
