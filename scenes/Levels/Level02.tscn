@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/Pickups/WaterPickup.tscn" id="3_water"]
+[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy2.tscn" id="4_enemy2"]
+[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy3.tscn" id="5_enemy3"]
+[ext_resource type="Script" path="res://Scripts/Levels/LevelExitArea.cs" id="6_exit"]
+[ext_resource type="Texture2D" path="res://assets/Backgrounds/Level02.png" id="7_bg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1250, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(120, 160)
+
+[node name="Level02" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 1180.0
+offset_bottom = 720.0
+texture = ExtResource("7_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(-470, 8)
+scale = Vector2(1.5, 1.5)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="World"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(10, 382)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Enemy2A" parent="World/Ground" instance=ExtResource("4_enemy2")]
+position = Vector2(110, 204)
+
+[node name="Enemy2B" parent="World/Ground" instance=ExtResource("4_enemy2")]
+position = Vector2(480, 204)
+
+[node name="Enemy3A" parent="World/Ground" instance=ExtResource("5_enemy3")]
+position = Vector2(820, 170)
+
+[node name="WaterPickupA" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(-220, 238)
+
+[node name="WaterPickupB" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(300, 238)
+
+[node name="LevelExit" type="Area2D" parent="World/Ground"]
+position = Vector2(1040, 280)
+script = ExtResource("6_exit")
+CompletedLevelNumber = 2
+HomeScenePath = "res://scenes/Levels/Home.tscn"
+PromptLabelPath = NodePath("PromptLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/LevelExit"]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="PortalVisual" type="Polygon2D" parent="World/Ground/LevelExit"]
+color = Color(0.97, 0.87, 0.34, 0.78)
+polygon = PackedVector2Array(-46, 40, 46, 40, 46, -120, -46, -120)
+
+[node name="ExitLabel" type="Label" parent="World/Ground/LevelExit"]
+offset_left = -78.0
+offset_top = -112.0
+offset_right = 78.0
+offset_bottom = -60.0
+theme_override_font_sizes/font_size = 14
+text = "EXIT\nReturn Home"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="World/Ground/LevelExit"]
+visible = false
+offset_left = -92.0
+offset_top = 48.0
+offset_right = 92.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "Press E to complete"
+horizontal_alignment = 1

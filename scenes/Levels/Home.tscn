@@ -1,0 +1,226 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="3_shopui"]
+[ext_resource type="Script" path="res://Scripts/Shop/ShopArea.cs" id="4_shoparea"]
+[ext_resource type="Script" path="res://Scripts/Levels/LevelPortal.cs" id="5_portal"]
+[ext_resource type="Texture2D" path="res://assets/Backgrounds/TitlePage.jpg" id="6_bg"]
+[ext_resource type="Texture2D" path="res://assets/other/platform1.png" id="7_platform"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1250, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
+size = Vector2(140, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
+size = Vector2(120, 170)
+
+[node name="Home" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 1180.0
+offset_bottom = 720.0
+texture = ExtResource("6_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(-460, 10)
+scale = Vector2(1.5, 1.5)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="ShopUI" parent="." instance=ExtResource("3_shopui")]
+
+[node name="TopHint" type="Label" parent="."]
+offset_left = -550.0
+offset_top = -300.0
+offset_right = 550.0
+offset_bottom = -250.0
+theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "HOME HUB  |  Press E near SHOP or PORTALS"
+horizontal_alignment = 1
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="World"]
+
+[node name="PlatformTile1" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-300, 548)
+scale = Vector2(7, 7)
+texture = ExtResource("7_platform")
+
+[node name="PlatformTile2" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(300, 548)
+scale = Vector2(7, 7)
+texture = ExtResource("7_platform")
+
+[node name="PlatformTile3" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(900, 548)
+scale = Vector2(7, 7)
+texture = ExtResource("7_platform")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(10, 382)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ShopArea" type="Area2D" parent="World/Ground"]
+position = Vector2(-320, 286)
+script = ExtResource("4_shoparea")
+ShopUiPath = NodePath("../../../ShopUI")
+PromptLabelPath = NodePath("PromptLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/ShopArea"]
+position = Vector2(0, 24)
+shape = SubResource("RectangleShape2D_shop")
+
+[node name="ShopSign" type="Polygon2D" parent="World/Ground/ShopArea"]
+color = Color(0.8508952, 0.0006326306, 0.861734, 1)
+polygon = PackedVector2Array(-34, -56, 34, -56, 34, 4, -34, 4)
+
+[node name="ShopLabel" type="Label" parent="World/Ground/ShopArea"]
+offset_left = -30.0
+offset_top = -47.0
+offset_right = 31.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="World/Ground/ShopArea"]
+visible = false
+offset_left = -95.0
+offset_top = -92.0
+offset_right = 95.0
+offset_bottom = -55.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 16
+text = "Press E to open shop"
+horizontal_alignment = 1
+
+[node name="PortalLevel1" type="Area2D" parent="World/Ground"]
+position = Vector2(120, 285)
+script = ExtResource("5_portal")
+RequiredUnlockedLevel = 1
+TargetScenePath = "res://scenes/Levels/Level01.tscn"
+DisplayName = "LEVEL 1"
+PromptLabelPath = NodePath("PromptLabel")
+StatusLabelPath = NodePath("StatusLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/PortalLevel1"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_portal")
+
+[node name="PortalVisual" type="Polygon2D" parent="World/Ground/PortalLevel1"]
+color = Color(0.2, 0.8, 1, 0.75)
+polygon = PackedVector2Array(-44, 38, 44, 38, 44, -118, -44, -118)
+
+[node name="StatusLabel" type="Label" parent="World/Ground/PortalLevel1"]
+offset_left = -72.0
+offset_top = -108.0
+offset_right = 72.0
+offset_bottom = -62.0
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "LEVEL 1\nUNLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="World/Ground/PortalLevel1"]
+visible = false
+offset_left = -92.0
+offset_top = 48.0
+offset_right = 92.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "Press E to enter"
+horizontal_alignment = 1
+
+[node name="PortalLevel2" type="Area2D" parent="World/Ground"]
+position = Vector2(390, 285)
+script = ExtResource("5_portal")
+RequiredUnlockedLevel = 2
+TargetScenePath = "res://scenes/Levels/Level02.tscn"
+DisplayName = "LEVEL 2"
+PromptLabelPath = NodePath("PromptLabel")
+StatusLabelPath = NodePath("StatusLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/PortalLevel2"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_portal")
+
+[node name="PortalVisual" type="Polygon2D" parent="World/Ground/PortalLevel2"]
+color = Color(0.37, 0.96, 0.44, 0.75)
+polygon = PackedVector2Array(-44, 38, 44, 38, 44, -118, -44, -118)
+
+[node name="StatusLabel" type="Label" parent="World/Ground/PortalLevel2"]
+offset_left = -72.0
+offset_top = -108.0
+offset_right = 72.0
+offset_bottom = -62.0
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "LEVEL 2\nLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="World/Ground/PortalLevel2"]
+visible = false
+offset_left = -92.0
+offset_top = 48.0
+offset_right = 92.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "Press E to enter"
+horizontal_alignment = 1
+
+[node name="PortalLevel3" type="Area2D" parent="World/Ground"]
+position = Vector2(660, 285)
+script = ExtResource("5_portal")
+RequiredUnlockedLevel = 3
+TargetScenePath = "res://scenes/Levels/Level03.tscn"
+DisplayName = "LEVEL 3"
+PromptLabelPath = NodePath("PromptLabel")
+StatusLabelPath = NodePath("StatusLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/PortalLevel3"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_portal")
+
+[node name="PortalVisual" type="Polygon2D" parent="World/Ground/PortalLevel3"]
+color = Color(1, 0.55, 0.24, 0.75)
+polygon = PackedVector2Array(-44, 38, 44, 38, 44, -118, -44, -118)
+
+[node name="StatusLabel" type="Label" parent="World/Ground/PortalLevel3"]
+offset_left = -72.0
+offset_top = -108.0
+offset_right = 72.0
+offset_bottom = -62.0
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "LEVEL 3\nLOCKED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="World/Ground/PortalLevel3"]
+visible = false
+offset_left = -92.0
+offset_top = 48.0
+offset_right = 92.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "Press E to enter"
+horizontal_alignment = 1

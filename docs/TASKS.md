@@ -34,7 +34,7 @@
 - [ ] Combat feedback
 
 ### Gameplay
-- [ ] 3–5 enemy types
+- [x] 3–5 enemy types
 - [ ] Weapon switching
 - [x] Water currency
 - [ ] Shop system

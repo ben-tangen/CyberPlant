@@ -15,7 +15,7 @@
 |---|---|---|---|---|---|
 | T07 | Movement/combat feel polish | Ben | Not Started | T02, T03 | T13 |
 | T08 | Weapon system (switching + behaviors) | Ben | Not Started | T03 | T11, T12, T13 |
-| T09 | Enemy variations (3-5 types) | Judah | Not Started | T04 | T12, T13 |
+| T09 | Enemy variations (3-5 types) | Judah | Done | T04 | T12, T13 |
 | T10 | Main menu + level flow wiring | Peyton | Done | T05, T06 | T14 |
 | T11 | Water currency loop (pickup -> manager -> UI) | Peyton | Done | T06, T08 | T14 |
 | T12 | Boss prototype | Judah | Not Started | T03, T04, T08, T09 | T13 |

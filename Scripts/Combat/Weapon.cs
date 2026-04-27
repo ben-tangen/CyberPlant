@@ -4,12 +4,20 @@ namespace CyberPlant.Combat;
 
 public sealed class Weapon
 {
-    public Weapon(string id, string displayName, int damage, float attackDuration = 0.3f)
+    public Weapon(
+        string id,
+        string displayName,
+        int damage,
+        float attackCooldown,
+        float hitRadius,
+        float hitOffsetX)
     {
         Id = id;
         DisplayName = displayName;
         Damage = damage;
-        AttackDuration = attackDuration;
+        AttackCooldown = attackCooldown;
+        HitRadius = hitRadius;
+        HitOffsetX = hitOffsetX;
     }
 
     public string Id { get; }
@@ -18,5 +26,9 @@ public sealed class Weapon
 
     public int Damage { get; }
 
-    public float AttackDuration { get; }
+    public float AttackCooldown { get; }
+
+    public float HitRadius { get; }
+
+    public float HitOffsetX { get; }
 }

@@ -11,10 +11,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -92.0
-offset_right = 160.0
-offset_bottom = 92.0
+offset_left = -220.0
+offset_top = -160.0
+offset_right = 220.0
+offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -31,9 +31,21 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Buy Health - 20 Water"
 
+[node name="BuyThornBladeButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Buy Thorn Blade - 35 Water"
+
+[node name="BuyVineWhipButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Buy Vine Whip - 45 Water"
+
+[node name="BuySporeBurstButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Buy Spore Burst - 60 Water"
+
 [node name="StatusLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Buy 25 health for 20 water."
+text = "Buy upgrades with water."
 horizontal_alignment = 1
 autowrap_mode = 3
 

@@ -1,6 +1,7 @@
 #nullable enable
 using Godot;
 using CyberPlant.Combat;
+using PlayerCharacter = CyberPlant.Player.Player;
 
 namespace CyberPlant.Enemies;
 
@@ -51,6 +52,15 @@ public partial class EnemyAI : Node
 
         if (_player == null)
         {
+            return;
+        }
+
+        if (_enemy.IsInHitStun)
+        {
+            ApplyGravity(delta);
+            _enemyBody.MoveAndSlide();
+            _enemy.UpdateVisualState(_enemyBody.Velocity.X);
+            _timeSinceLastAttack += (float)delta;
             return;
         }
 
@@ -134,12 +144,17 @@ public partial class EnemyAI : Node
 
     private void Attack()
     {
-        if (_timeSinceLastAttack < AttackCooldown || _player == null)
+        if (_timeSinceLastAttack < AttackCooldown || _player == null || _enemyBody == null)
         {
             return;
         }
 
-        if (_player is IDamageable damageable)
+        if (_player is PlayerCharacter player)
+        {
+            player.TakeDamage(AttackDamage);
+            player.ApplyEnemyHitFeedback(_enemyBody.GlobalPosition);
+        }
+        else if (_player is IDamageable damageable)
         {
             damageable.TakeDamage(AttackDamage);
         }

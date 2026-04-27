@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/Enemy.cs" id="1_enemy"]
+[ext_resource type="Script" path="res://Scripts/Enemies/EnemyAI.cs" id="2_ai"]
+[ext_resource type="Texture2D" path="res://assets/enemies/enemy2_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/enemies/enemy2_move1.png" id="4_move1"]
+[ext_resource type="Texture2D" path="res://assets/enemies/enemy2_move2.png" id="5_move2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 15.0
+height = 52.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enemy2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_front")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_move1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_move2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_damage"]
+radius = 40.0
+height = 170.0
+
+[node name="Enemy2" type="CharacterBody2D"]
+floor_snap_length = 10.0
+MaxHealth = 24
+WaterDropAmount = 8
+HitStunDuration = 0.08
+KnockbackForce = 220.0
+script = ExtResource("1_enemy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -36)
+sprite_frames = SubResource("SpriteFrames_enemy2")
+animation = &"idle"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -65.0
+offset_right = 20.0
+offset_bottom = -58.0
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -41)
+shape = SubResource("CapsuleShape2D_damage")
+
+[node name="EnemyAI" type="Node" parent="."]
+PatrolSpeed = 145.0
+PatrolDistance = 190.0
+DetectionRange = 250.0
+AttackRange = 54.0
+AttackCooldown = 1.1
+AttackDamage = 12
+ChaseSpeedMultiplier = 2.0
+script = ExtResource("2_ai")

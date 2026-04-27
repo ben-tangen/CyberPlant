@@ -6,6 +6,7 @@ namespace CyberPlant.Core;
 public partial class GameManager : Node
 {
     public const int InventorySlotCount = 4;
+    public const int MaxLevelNumber = 3;
 
     [Signal]
     public delegate void WaterChangedEventHandler(int newAmount);
@@ -19,9 +20,14 @@ public partial class GameManager : Node
     [Signal]
     public delegate void ActiveInventorySlotChangedEventHandler(int slotIndex);
 
+    [Signal]
+    public delegate void LevelProgressChangedEventHandler(int highestUnlockedLevel);
+
     public int Water { get; private set; }
 
     public int ActiveInventorySlotIndex { get; private set; }
+
+    public int HighestUnlockedLevel { get; private set; } = 1;
 
     // We keep this as Node2D so systems can swap in subclasses (Player, debug dummies, etc.).
     public Node2D? CurrentPlayer { get; private set; }
@@ -112,6 +118,39 @@ public partial class GameManager : Node
         return GetInventorySlot(ActiveInventorySlotIndex);
     }
 
+    public bool HasInventoryItem(string itemId)
+    {
+        foreach (var inventoryItem in _inventorySlots)
+        {
+            if (inventoryItem?.Id == itemId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int TryAddInventoryItemToFirstEmptySlot(InventoryItem item, int startSlotIndex = 1)
+    {
+        if (item == null)
+        {
+            return -1;
+        }
+
+        int clampedStartIndex = Mathf.Clamp(startSlotIndex, 0, InventorySlotCount - 1);
+        for (int slotIndex = clampedStartIndex; slotIndex < InventorySlotCount; slotIndex += 1)
+        {
+            if (_inventorySlots[slotIndex] == null)
+            {
+                SetInventorySlot(slotIndex, item);
+                return slotIndex;
+            }
+        }
+
+        return -1;
+    }
+
     public void SetInventorySlot(int slotIndex, InventoryItem? item)
     {
         if (!IsValidSlotIndex(slotIndex))
@@ -138,8 +177,25 @@ public partial class GameManager : Node
     {
         // TODO (Team): Expand this with checkpoint/level/score state as systems come online.
         InitializeInventory();
+        HighestUnlockedLevel = 1;
+        EmitSignal(SignalName.LevelProgressChanged, HighestUnlockedLevel);
         Water = 0;
         EmitSignal(SignalName.WaterChanged, Water);
+    }
+
+    public bool IsLevelUnlocked(int levelNumber)
+    {
+        return levelNumber <= HighestUnlockedLevel;
+    }
+
+    public void CompleteLevel(int completedLevelNumber)
+    {
+        int nextLevel = Mathf.Clamp(completedLevelNumber + 1, 1, MaxLevelNumber);
+        if (nextLevel > HighestUnlockedLevel)
+        {
+            HighestUnlockedLevel = nextLevel;
+            EmitSignal(SignalName.LevelProgressChanged, HighestUnlockedLevel);
+        }
     }
 
     private void InitializeInventory()

@@ -25,6 +25,10 @@ public partial class Player : CharacterBody2D, IDamageable
     [Export] public float FallGravityMultiplier { get; set; } = 1.8f;
     [Export] public float JumpReleaseGravityMultiplier { get; set; } = 2.4f;
     [Export] public float MaxFallSpeed { get; set; } = 1100.0f;
+    [Export] public float DamageKnockbackForce { get; set; } = 230.0f;
+    [Export] public float DamageKnockbackDecay { get; set; } = 1250.0f;
+    [Export] public float DamageKnockbackLift { get; set; } = 120.0f;
+    [Export] public float DamageFlashDuration { get; set; } = 0.10f;
 
     [Export] public int MaxHealth { get; set; } = 100;
     [Export] public int StartingHealth { get; set; } = 100;
@@ -40,6 +44,8 @@ public partial class Player : CharacterBody2D, IDamageable
     private bool _isWeaponAnimating = false;
     private bool _isFacingRight = true;
     private bool _hasActiveWeapon = false;
+    private float _damageFlashRemaining;
+    private float _damageKnockbackVelocityX;
 
     public override void _Ready()
     {
@@ -66,10 +72,17 @@ public partial class Player : CharacterBody2D, IDamageable
 
     public override void _PhysicsProcess(double delta)
     {
+        float dt = (float)delta;
         Vector2 velocity = Velocity;
 
         float moveInput = Input.GetAxis("move_left", "move_right");
         velocity.X = moveInput * MoveSpeed;
+
+        if (!Mathf.IsZeroApprox(_damageKnockbackVelocityX))
+        {
+            velocity.X += _damageKnockbackVelocityX;
+            _damageKnockbackVelocityX = Mathf.MoveToward(_damageKnockbackVelocityX, 0.0f, DamageKnockbackDecay * dt);
+        }
 
         if (!Mathf.IsZeroApprox(moveInput))
         {
@@ -125,6 +138,16 @@ public partial class Player : CharacterBody2D, IDamageable
             }
         }
 
+        if (_damageFlashRemaining > 0.0f)
+        {
+            _damageFlashRemaining = Mathf.Max(0.0f, _damageFlashRemaining - dt);
+            ApplyDamageTint(new Color(1.25f, 0.7f, 0.7f, 1.0f));
+        }
+        else
+        {
+            ApplyDamageTint(Colors.White);
+        }
+
         UpdateVisualState(moveInput);
         Velocity = velocity;
         MoveAndSlide();
@@ -132,12 +155,12 @@ public partial class Player : CharacterBody2D, IDamageable
 
     public void TakeDamage(int amount)
     {
-        // TODO (Judah): Enemy attacks/projectiles should call this entry point.
         if (amount <= 0 || CurrentHealth <= 0)
         {
             return;
         }
 
+        TriggerDamageFeedback(null);
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
 
@@ -145,6 +168,11 @@ public partial class Player : CharacterBody2D, IDamageable
         {
             EmitSignal(SignalName.Died);
         }
+    }
+
+    public void ApplyEnemyHitFeedback(Vector2 attackerPosition)
+    {
+        TriggerDamageFeedback(attackerPosition);
     }
 
     public void Heal(int amount)
@@ -179,11 +207,7 @@ public partial class Player : CharacterBody2D, IDamageable
         }
 
         var item = _gameManager.GetActiveInventoryItem();
-        var weapon = item?.Id switch
-        {
-            "base_item" => new Weapon("base_item", "Base Attack", 10, 0.3f),
-            _ => null,
-        };
+        var weapon = WeaponCatalog.GetWeaponForItem(item?.Id);
 
         _hasActiveWeapon = weapon != null;
         _weaponController.SetWeapon(weapon);
@@ -193,6 +217,46 @@ public partial class Player : CharacterBody2D, IDamageable
     public void SetSpawnPosition(Vector2 spawnPosition)
     {
         GlobalPosition = spawnPosition;
+    }
+
+    private void TriggerDamageFeedback(Vector2? attackerPosition)
+    {
+        float horizontalDirection;
+        if (attackerPosition.HasValue)
+        {
+            horizontalDirection = Mathf.Sign(GlobalPosition.X - attackerPosition.Value.X);
+            if (Mathf.IsZeroApprox(horizontalDirection))
+            {
+                horizontalDirection = _isFacingRight ? -1.0f : 1.0f;
+            }
+        }
+        else
+        {
+            horizontalDirection = _isFacingRight ? -1.0f : 1.0f;
+        }
+
+        _damageKnockbackVelocityX = horizontalDirection * DamageKnockbackForce;
+        _damageFlashRemaining = DamageFlashDuration;
+
+        if (IsOnFloor())
+        {
+            Vector2 velocity = Velocity;
+            velocity.Y = -DamageKnockbackLift;
+            Velocity = velocity;
+        }
+    }
+
+    private void ApplyDamageTint(Color color)
+    {
+        if (_animatedSprite != null)
+        {
+            _animatedSprite.Modulate = color;
+        }
+
+        if (_weaponVisual != null)
+        {
+            _weaponVisual.Modulate = color;
+        }
     }
 
     private void UpdateVisualState(float moveInput)
@@ -227,6 +291,11 @@ public partial class Player : CharacterBody2D, IDamageable
         {
             _weaponVisual.Visible = false;
             _weaponVisual.FlipH = !_isFacingRight;
+        }
+
+        if (_weaponController != null)
+        {
+            _weaponController.Scale = new Vector2(_isFacingRight ? 1.0f : -1.0f, 1.0f);
         }
     }
 }

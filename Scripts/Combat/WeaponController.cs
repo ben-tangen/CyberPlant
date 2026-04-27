@@ -2,6 +2,7 @@
 using Godot;
 using CyberPlant.Combat;
 using CyberPlant.Core;
+using CyberPlant.Enemies;
 using System.Collections.Generic;
 
 namespace CyberPlant.Player;
@@ -12,12 +13,30 @@ public partial class WeaponController : Area2D
     [Export] public string TargetDamageGroup { get; set; } = "enemy";
 
     private Weapon? _currentWeapon;
+    private CollisionShape2D? _hitCollisionShape;
+    private CircleShape2D? _hitShape;
     private double _timeSinceLastAttack = 0.0;
     private bool _isAttacking = false;
+    private float _baseAttackCooldown;
+    private float _baseHitRadius;
+    private Vector2 _baseHitOffset;
     private readonly HashSet<ulong> _hitTargetsThisAttack = new();
 
     public override void _Ready()
     {
+        _baseAttackCooldown = AttackCooldown;
+        _hitCollisionShape = GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
+        _hitShape = _hitCollisionShape?.Shape as CircleShape2D;
+        if (_hitCollisionShape != null)
+        {
+            _baseHitOffset = _hitCollisionShape.Position;
+        }
+
+        if (_hitShape != null)
+        {
+            _baseHitRadius = _hitShape.Radius;
+        }
+
         AreaEntered += OnAreaEntered;
         BodyEntered += OnBodyEntered;
     }
@@ -38,6 +57,7 @@ public partial class WeaponController : Area2D
     public void SetWeapon(Weapon? weapon)
     {
         _currentWeapon = weapon;
+        ApplyWeaponSettings();
     }
 
     public void Attack()
@@ -111,6 +131,11 @@ public partial class WeaponController : Area2D
 
         _hitTargetsThisAttack.Add(targetNode.GetInstanceId());
         damageable.TakeDamage(_currentWeapon.Damage);
+
+        if (targetNode is Enemy enemy)
+        {
+            enemy.ApplyWeaponHitFeedback(GlobalPosition);
+        }
     }
 
     private static IDamageable? ResolveDamageable(Node startNode)
@@ -127,5 +152,20 @@ public partial class WeaponController : Area2D
         }
 
         return null;
+    }
+
+    private void ApplyWeaponSettings()
+    {
+        AttackCooldown = _currentWeapon?.AttackCooldown ?? _baseAttackCooldown;
+
+        if (_hitCollisionShape == null || _hitShape == null)
+        {
+            return;
+        }
+
+        _hitShape.Radius = _currentWeapon?.HitRadius ?? _baseHitRadius;
+        Vector2 hitOffset = _baseHitOffset;
+        hitOffset.X = _currentWeapon?.HitOffsetX ?? _baseHitOffset.X;
+        _hitCollisionShape.Position = hitOffset;
     }
 }

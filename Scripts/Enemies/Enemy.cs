@@ -15,11 +15,19 @@ public partial class Enemy : CharacterBody2D, IDamageable
 
     [Export] public int MaxHealth { get; set; } = 30;
     [Export] public int WaterDropAmount { get; set; } = 5;
+    [Export] public float HitStunDuration { get; set; } = 0.12f;
+    [Export] public float HitFlashDuration { get; set; } = 0.08f;
+    [Export] public float KnockbackForce { get; set; } = 260.0f;
+    [Export] public float KnockbackLift { get; set; } = 140.0f;
+    [Export] public float KnockbackDamping { get; set; } = 900.0f;
 
     public int CurrentHealth { get; private set; }
+    public bool IsInHitStun => _hitStunRemaining > 0.0f;
 
     private AnimatedSprite2D? _animatedSprite;
     private ProgressBar? _healthBar;
+    private float _hitStunRemaining;
+    private float _hitFlashRemaining;
 
     public override void _Ready()
     {
@@ -31,6 +39,29 @@ public partial class Enemy : CharacterBody2D, IDamageable
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
         _animatedSprite?.Play("idle");
         UpdateHealthBarDisplay();
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        float dt = (float)delta;
+
+        if (_hitStunRemaining > 0.0f)
+        {
+            _hitStunRemaining = Mathf.Max(0.0f, _hitStunRemaining - dt);
+            Vector2 velocity = Velocity;
+            velocity.X = Mathf.MoveToward(velocity.X, 0.0f, KnockbackDamping * dt);
+            Velocity = velocity;
+        }
+
+        if (_hitFlashRemaining > 0.0f)
+        {
+            _hitFlashRemaining = Mathf.Max(0.0f, _hitFlashRemaining - dt);
+            Modulate = new Color(1.25f, 0.65f, 0.65f, 1.0f);
+        }
+        else if (Modulate != Colors.White)
+        {
+            Modulate = Colors.White;
+        }
     }
 
     public void UpdateVisualState(float horizontalVelocity)
@@ -74,6 +105,27 @@ public partial class Enemy : CharacterBody2D, IDamageable
         {
             Die();
         }
+    }
+
+    public void ApplyWeaponHitFeedback(Vector2 attackerPosition)
+    {
+        float horizontalDirection = Mathf.Sign(GlobalPosition.X - attackerPosition.X);
+        if (Mathf.IsZeroApprox(horizontalDirection))
+        {
+            horizontalDirection = 1.0f;
+        }
+
+        Vector2 velocity = Velocity;
+        velocity.X = horizontalDirection * KnockbackForce;
+
+        if (IsOnFloor())
+        {
+            velocity.Y = -KnockbackLift;
+        }
+
+        Velocity = velocity;
+        _hitStunRemaining = Mathf.Max(_hitStunRemaining, HitStunDuration);
+        _hitFlashRemaining = Mathf.Max(_hitFlashRemaining, HitFlashDuration);
     }
 
     private void UpdateHealthBarDisplay()

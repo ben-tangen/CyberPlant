@@ -7,7 +7,7 @@ namespace CyberPlant.UI;
 public partial class MainMenu : Control
 {
     [Export(PropertyHint.File, "*.tscn")]
-    public string FirstLevelScenePath { get; set; } = "res://Scenes/Levels/Level01.tscn";
+    public string FirstLevelScenePath { get; set; } = "res://scenes/Levels/Home.tscn";
 
     [Export] public Label? TitleLabel;
     [Export] public Button? StartButton;
