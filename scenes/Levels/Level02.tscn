@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
-[ext_resource type="PackedScene" path="res://scenes/Pickups/WaterPickup.tscn" id="3_water"]
-[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy2.tscn" id="4_enemy2"]
-[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy3.tscn" id="5_enemy3"]
+[ext_resource type="PackedScene" path="res://Scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Pickups/WaterPickup.tscn" id="3_water"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/Enemy2.tscn" id="4_enemy2"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/Enemy3.tscn" id="5_enemy3"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelExitArea.cs" id="6_exit"]
 [ext_resource type="Texture2D" path="res://assets/Backgrounds/Level02.png" id="7_bg"]
 
@@ -58,7 +58,7 @@ position = Vector2(300, 238)
 position = Vector2(1040, 280)
 script = ExtResource("6_exit")
 CompletedLevelNumber = 2
-HomeScenePath = "res://scenes/Levels/Home.tscn"
+HomeScenePath = "res://Scenes/Levels/Home.tscn"
 PromptLabelPath = NodePath("PromptLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/LevelExit"]

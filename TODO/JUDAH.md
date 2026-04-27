@@ -8,8 +8,7 @@
 | J4 | Structure Design | Not Started | Unblocked | Level Building | Build structures such as walls, floors, ceilings, etc. for level building. |
 
 ## External blockers for Judah
-- Baseline blockers are cleared; next blockers are mostly `B3` weapon behavior expectations and time for enemy content expansion.
-- `B3` Weapon behavior expectations from Ben
+- Baseline enemy variation and weapon behavior blockers are cleared; boss prototyping can now start.
 
 ## Recent Completed Work
 - Added enemy sprite art to `Enemy.tscn` using the existing enemy assets in `assets/enemies`.
