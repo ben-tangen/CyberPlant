@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cdnwhw0evm842"]
+[gd_scene load_steps=15 format=3 uid="uid://cdnwhw0evm842"]
 
 [ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://scenes/Player/Player.tscn" id="1_882ua"]
 [ext_resource type="Texture2D" uid="uid://cr4uqivdas1h" path="res://assets/Backgrounds/Level01.jpg" id="1_rkq7q"]
@@ -7,13 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://c28wqa8rrj8v" path="res://scenes/Enemies/Enemy1.tscn" id="4_enemy"]
 [ext_resource type="Texture2D" uid="uid://cq1fqypkxxnt1" path="res://assets/other/platform1.png" id="5_platform"]
 [ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="6_shopui"]
-[ext_resource type="Script" uid="uid://yf7jtw6hls05" path="res://Scripts/Shop/ShopArea.cs" id="7_shoparea"]
+[ext_resource type="PackedScene" path="res://scenes/Shop/ShopArea.tscn" id="7_shoparea"]
 [ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy2.tscn" id="8_enemy2"]
 [ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy3.tscn" id="9_enemy3"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelExitArea.cs" id="10_exit"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
-size = Vector2(140, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvhti"]
 size = Vector2(1202, 86)
@@ -61,33 +58,9 @@ position = Vector2(620, 200)
 [node name="Enemy3" parent="World/Ground" instance=ExtResource("9_enemy3")]
 position = Vector2(950, 106)
 
-[node name="ShopArea" type="Area2D" parent="World/Ground"]
+[node name="ShopArea" parent="World/Ground" instance=ExtResource("7_shoparea")]
 position = Vector2(-120, 286)
-script = ExtResource("7_shoparea")
 ShopUiPath = NodePath("../../../ShopUI")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/ShopArea"]
-position = Vector2(0, 24)
-shape = SubResource("RectangleShape2D_shop")
-
-[node name="ShopSign" type="Polygon2D" parent="World/Ground/ShopArea"]
-color = Color(0.8508952, 0.0006326306, 0.861734, 1)
-polygon = PackedVector2Array(-34, -56, 34, -56, 34, 4, -34, 4)
-
-[node name="ShopLabel" type="Label" parent="World/Ground/ShopArea"]
-offset_left = -30.0
-offset_top = -47.0
-offset_right = 31.0
-offset_bottom = -6.0
-theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_font_sizes/font_size = 18
-text = "SHOP"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ShopPost" type="Polygon2D" parent="World/Ground/ShopArea"]
-color = Color(0.15, 0.15, 0.18, 1)
-polygon = PackedVector2Array(-6, 4, 6, 4, 6, 72, -6, 72)
 
 [node name="PlatformTile1" type="Sprite2D" parent="World/Ground"]
 texture_filter = 1

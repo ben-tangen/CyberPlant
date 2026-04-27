@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://yf7jtw6hls05" path="res://Scripts/Shop/ShopArea.cs" id="1_shoparea"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shop"]
+size = Vector2(140, 120)
+
+[node name="ShopArea" type="Area2D"]
+script = ExtResource("1_shoparea")
+PromptLabelPath = NodePath("PromptLabel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 24)
+shape = SubResource("RectangleShape2D_shop")
+
+[node name="ShopSign" type="Polygon2D" parent="."]
+color = Color(0.8508952, 0.0006326306, 0.861734, 1)
+polygon = PackedVector2Array(-34, -56, 34, -56, 34, 4, -34, 4)
+
+[node name="ShopLabel" type="Label" parent="."]
+offset_left = -30.0
+offset_top = -47.0
+offset_right = 31.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShopPost" type="Polygon2D" parent="."]
+color = Color(0.15, 0.15, 0.18, 1)
+polygon = PackedVector2Array(-6, 4, 6, 4, 6, 72, -6, 72)
+
+[node name="PromptLabel" type="Label" parent="."]
+visible = false
+offset_left = -95.0
+offset_top = -92.0
+offset_right = 95.0
+offset_bottom = -55.0
+theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
+theme_override_font_sizes/font_size = 16
+text = "Press E to open shop"
+horizontal_alignment = 1
