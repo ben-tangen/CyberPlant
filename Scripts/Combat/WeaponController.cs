@@ -136,6 +136,10 @@ public partial class WeaponController : Area2D
         {
             enemy.ApplyWeaponHitFeedback(GlobalPosition);
         }
+        else if (targetNode is Boss boss)
+        {
+            boss.ApplyWeaponHitFeedback(GlobalPosition);
+        }
     }
 
     private static IDamageable? ResolveDamageable(Node startNode)
