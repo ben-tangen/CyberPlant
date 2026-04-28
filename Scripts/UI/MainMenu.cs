@@ -7,7 +7,7 @@ namespace CyberPlant.UI;
 public partial class MainMenu : Control
 {
     [Export(PropertyHint.File, "*.tscn")]
-    public string FirstLevelScenePath { get; set; } = "res://scenes/Levels/Home.tscn";
+    public string HomeScenePath { get; set; } = "res://scenes/Levels/Home.tscn";
 
     [Export] public Label? TitleLabel;
     [Export] public Button? StartButton;
@@ -56,7 +56,7 @@ public partial class MainMenu : Control
         var gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
         gameManager?.ResetRunState();
 
-        GetTree().ChangeSceneToFile(FirstLevelScenePath);
+        GetTree().ChangeSceneToFile(HomeScenePath);
     }
 
     private void OnQuitButtonPressed()

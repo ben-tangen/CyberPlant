@@ -1,26 +1,34 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://c2fed0dskdutg"]
 
-[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://bo1jyl08vefqt" path="res://scenes/UI/HUD.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="3_shopui"]
 [ext_resource type="PackedScene" path="res://scenes/Shop/ShopArea.tscn" id="4_shoparea"]
-[ext_resource type="Script" path="res://Scripts/Levels/LevelPortal.cs" id="5_portal"]
-[ext_resource type="Texture2D" path="res://assets/Backgrounds/TitlePage.jpg" id="6_bg"]
-[ext_resource type="Texture2D" path="res://assets/other/platform1.png" id="7_platform"]
+[ext_resource type="Script" uid="uid://cis6kb0u8x081" path="res://Scripts/Levels/LevelPortal.cs" id="5_portal"]
+[ext_resource type="Texture2D" uid="uid://bon1ed2wiun0m" path="res://assets/Backgrounds/TitlePage.jpg" id="6_bg"]
+[ext_resource type="Texture2D" uid="uid://cq1fqypkxxnt1" path="res://assets/other/platform1.png" id="7_platform"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1250, 86)
+size = Vector2(1811, 86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
 size = Vector2(120, 170)
 
 [node name="Home" type="Node2D"]
 
-[node name="Background" type="TextureRect" parent="."]
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 1180.0
-offset_bottom = 720.0
+[node name="BackgroundParallax" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="BackgroundLayer" type="ParallaxLayer" parent="BackgroundParallax"]
+motion_scale = Vector2(0.25, 0.18)
+motion_mirroring = Vector2(6000, 0)
+
+[node name="Background" type="TextureRect" parent="BackgroundParallax/BackgroundLayer"]
+texture_filter = 1
+offset_left = -3000.0
+offset_top = -2200.0
+offset_right = 3000.0
+offset_bottom = 2200.0
 texture = ExtResource("6_bg")
 expand_mode = 1
 stretch_mode = 6
@@ -67,7 +75,7 @@ scale = Vector2(7, 7)
 texture = ExtResource("7_platform")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
-position = Vector2(10, 382)
+position = Vector2(290.5, 382)
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="ShopArea" parent="World/Ground" instance=ExtResource("4_shoparea")]
@@ -77,7 +85,6 @@ ShopUiPath = NodePath("../../../ShopUI")
 [node name="PortalLevel1" type="Area2D" parent="World/Ground"]
 position = Vector2(120, 285)
 script = ExtResource("5_portal")
-RequiredUnlockedLevel = 1
 TargetScenePath = "res://scenes/Levels/Level01.tscn"
 DisplayName = "LEVEL 1"
 PromptLabelPath = NodePath("PromptLabel")
@@ -98,7 +105,8 @@ offset_right = 72.0
 offset_bottom = -62.0
 theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
 theme_override_font_sizes/font_size = 14
-text = "LEVEL 1\nUNLOCKED"
+text = "LEVEL 1
+UNLOCKED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -137,7 +145,8 @@ offset_right = 72.0
 offset_bottom = -62.0
 theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
 theme_override_font_sizes/font_size = 14
-text = "LEVEL 2\nLOCKED"
+text = "LEVEL 2
+LOCKED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -176,7 +185,8 @@ offset_right = 72.0
 offset_bottom = -62.0
 theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
 theme_override_font_sizes/font_size = 14
-text = "LEVEL 3\nLOCKED"
+text = "LEVEL 3
+LOCKED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
