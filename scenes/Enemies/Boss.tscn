@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/Boss.cs" id="1_boss"]
 [ext_resource type="Script" path="res://Scripts/Enemies/BossAI.cs" id="2_bossai"]
-[ext_resource type="Texture2D" uid="uid://bvkdwykv8gpo6" path="res://assets/icon.svg" id="3_texture"]
+[ext_resource type="Texture2D" uid="uid://dt5478p3hhsqr" path="res://assets/bosses/boss.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/bosses/boss2.png" id="4_move1"]
+[ext_resource type="Texture2D" path="res://assets/bosses/boss3.png" id="5_move2"]
+[ext_resource type="Texture2D" path="res://assets/bosses/boss4.png" id="6_move3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
 radius = 24.0
@@ -31,17 +34,43 @@ border_color = Color(0.3, 0.3, 0.3, 1.0)
 ProgressBar/styles/background = SubResource("StyleBoxFlat_healthbg")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_health")
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_boss"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_front")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_move1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_move2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_move3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
 [node name="Boss" type="CharacterBody2D"]
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_boss")
 MaxHealth = 150
 WaterDropAmount = 50
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_texture")
-region_enabled = true
-region_rect = Rect2(0, 0, 64, 64)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -6)
+scale = Vector2(0.24, 0.24)
+sprite_frames = SubResource("SpriteFrames_boss")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_1")
@@ -63,6 +92,9 @@ value = 100.0
 script = ExtResource("2_bossai")
 Phase1PatrolSpeed = 80.0
 Phase2PatrolSpeed = 120.0
+Phase1AttackRange = 150.0
+Phase2AttackRange = 170.0
+AttackHeightTolerance = 140.0
 Phase1AttackCooldown = 2.0
 Phase2AttackCooldown = 1.2
 AttackDamage = 25

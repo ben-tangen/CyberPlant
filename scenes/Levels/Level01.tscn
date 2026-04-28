@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://cdnwhw0evm842"]
+[gd_scene load_steps=84 format=3 uid="uid://cdnwhw0evm842"]
 
 [ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://scenes/Player/Player.tscn" id="1_882ua"]
 [ext_resource type="Texture2D" uid="uid://cr4uqivdas1h" path="res://assets/Backgrounds/Level01.jpg" id="1_rkq7q"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy2.tscn" id="8_enemy2"]
 [ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy3.tscn" id="9_enemy3"]
 [ext_resource type="Script" uid="uid://j7ssjpwaod5j" path="res://Scripts/Levels/LevelExitArea.cs" id="10_exit"]
+[ext_resource type="PackedScene" path="res://scenes/Enemies/Boss.tscn" id="11_boss"]
 [ext_resource type="Texture2D" uid="uid://hhrmu7877rnf" path="res://assets/other/wall.png" id="12_iqkhq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvhti"]
@@ -756,6 +757,9 @@ theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
 theme_override_font_sizes/font_size = 14
 text = "Press E to complete"
 horizontal_alignment = 1
+
+[node name="Boss" parent="World/Ground" instance=ExtResource("11_boss")]
+position = Vector2(8280, -1774)
 
 [node name="Wall" type="Sprite2D" parent="World/Ground"]
 texture_filter = 1

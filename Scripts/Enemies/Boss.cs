@@ -39,6 +39,7 @@ public partial class Boss : CharacterBody2D, IDamageable
 
     public override void _Ready()
     {
+        AddToGroup("enemy");
         AddToGroup("boss");
 
         _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
@@ -124,15 +125,25 @@ public partial class Boss : CharacterBody2D, IDamageable
         }
     }
 
-    public void ApplyWeaponHitFeedback(Vector2 knockbackDirection, int knockbackForce, int knockbackLift)
+    public void ApplyWeaponHitFeedback(Vector2 attackerPosition)
     {
-        _hitStunRemaining = HitStunDuration;
-        _hitFlashRemaining = HitFlashDuration;
+        float horizontalDirection = Mathf.Sign(GlobalPosition.X - attackerPosition.X);
+        if (Mathf.IsZeroApprox(horizontalDirection))
+        {
+            horizontalDirection = 1.0f;
+        }
 
         Vector2 velocity = Velocity;
-        velocity.X = knockbackDirection.X * knockbackForce;
-        velocity.Y = -knockbackLift;
+        velocity.X = horizontalDirection * KnockbackForce;
+
+        if (IsOnFloor())
+        {
+            velocity.Y = -KnockbackLift;
+        }
+
         Velocity = velocity;
+        _hitStunRemaining = Mathf.Max(_hitStunRemaining, HitStunDuration);
+        _hitFlashRemaining = Mathf.Max(_hitFlashRemaining, HitFlashDuration);
     }
 
     private void UpdateHealthBarDisplay()

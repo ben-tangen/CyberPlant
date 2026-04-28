@@ -15,8 +15,9 @@ public partial class BossAI : Node
     [Export] public float PatrolDistance { get; set; } = 200.0f;
     [Export] public float Phase1DetectionRange { get; set; } = 250.0f;
     [Export] public float Phase2DetectionRange { get; set; } = 350.0f;
-    [Export] public float Phase1AttackRange { get; set; } = 70.0f;
-    [Export] public float Phase2AttackRange { get; set; } = 80.0f;
+    [Export] public float Phase1AttackRange { get; set; } = 150.0f;
+    [Export] public float Phase2AttackRange { get; set; } = 170.0f;
+    [Export] public float AttackHeightTolerance { get; set; } = 140.0f;
     [Export] public float Phase1AttackCooldown { get; set; } = 2.0f;
     [Export] public float Phase2AttackCooldown { get; set; } = 1.2f;
     [Export] public int AttackDamage { get; set; } = 25;
@@ -81,7 +82,7 @@ public partial class BossAI : Node
         float detectionRange = _boss.CurrentPhase == 1 ? Phase1DetectionRange : Phase2DetectionRange;
         float attackRange = _boss.CurrentPhase == 1 ? Phase1AttackRange : Phase2AttackRange;
 
-        if (distanceToPlayer <= attackRange)
+        if (IsPlayerInAttackRange(attackRange))
         {
             Attack();
             StopMoving();
@@ -171,27 +172,29 @@ public partial class BossAI : Node
             return;
         }
 
-        Vector2 direction = (_player.GlobalPosition - _bossBody.GlobalPosition).Normalized();
-        Vector2 hitPosition = _bossBody.GlobalPosition + direction * 50.0f;
-        var spaceState = _bossBody.GetWorld2D().DirectSpaceState;
-
-        var query = new PhysicsShapeQueryParameters2D
+        if (_player is PlayerCharacter player)
         {
-            Shape = new CircleShape2D { Radius = 40.0f },
-            Transform = new Transform2D(0.0f, hitPosition)
-        };
-
-        var results = spaceState.IntersectShape(query);
-        foreach (var result in results)
+            player.TakeDamage(AttackDamage);
+            player.ApplyEnemyHitFeedback(_bossBody.GlobalPosition);
+        }
+        else if (_player is IDamageable damageable)
         {
-            var collider = (Node)result["collider"];
-            if (collider is PlayerCharacter playerChar && playerChar == _player)
-            {
-                playerChar.ApplyEnemyHitFeedback(_bossBody.GlobalPosition);
-            }
+            damageable.TakeDamage(AttackDamage);
         }
 
         _timeSinceLastAttack = 0.0f;
+    }
+
+    private bool IsPlayerInAttackRange(float attackRange)
+    {
+        if (_bossBody == null || _player == null)
+        {
+            return false;
+        }
+
+        Vector2 offsetToPlayer = _player.GlobalPosition - _bossBody.GlobalPosition;
+        return Mathf.Abs(offsetToPlayer.X) <= attackRange
+            && Mathf.Abs(offsetToPlayer.Y) <= AttackHeightTolerance;
     }
 
     private void StopMoving()
