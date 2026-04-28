@@ -7,7 +7,7 @@ namespace CyberPlant.Levels;
 public partial class LevelExitArea : Area2D
 {
     [Export] public int CompletedLevelNumber { get; set; } = 1;
-    [Export(PropertyHint.File, "*.tscn")] public string HomeScenePath { get; set; } = "res://Scenes/Levels/Home.tscn";
+    [Export(PropertyHint.File, "*.tscn")] public string HomeScenePath { get; set; } = "res://scenes/Levels/Home.tscn";
     [Export] public NodePath PromptLabelPath { get; set; } = "";
 
     private bool _playerNearby;

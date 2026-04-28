@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/Boss.cs" id="1_boss"]
+[ext_resource type="Script" path="res://Scripts/Enemies/BossAI.cs" id="2_bossai"]
+[ext_resource type="Texture2D" uid="uid://bvkdwykv8gpo6" path="res://assets/icon.svg" id="3_texture"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
+radius = 24.0
+height = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+radius = 50.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
+bg_color = Color(0.2, 0.8, 0.2, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.6, 0.1, 1.0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_healthbg"]
+bg_color = Color(0.1, 0.1, 0.1, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.3, 1.0)
+
+[sub_resource type="Theme" id="Theme_health"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_healthbg")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_health")
+
+[node name="Boss" type="CharacterBody2D"]
+scale = Vector2(2.5, 2.5)
+script = ExtResource("1_boss")
+MaxHealth = 150
+WaterDropAmount = 50
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_texture")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+
+[node name="AttackCollision" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("CircleShape2D_attack")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -32.0
+offset_top = -50.0
+offset_right = 32.0
+offset_bottom = -36.0
+theme = SubResource("Theme_health")
+value = 100.0
+
+[node name="BossAI" type="Node" parent="."]
+script = ExtResource("2_bossai")
+Phase1PatrolSpeed = 80.0
+Phase2PatrolSpeed = 120.0
+Phase1AttackCooldown = 2.0
+Phase2AttackCooldown = 1.2
+AttackDamage = 25

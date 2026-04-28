@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3]
 
-[ext_resource type="PackedScene" path="res://Scenes/Player/Player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/ShopUI.tscn" id="3_shopui"]
-[ext_resource type="PackedScene" path="res://Scenes/Shop/ShopArea.tscn" id="4_shoparea"]
+[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="3_shopui"]
+[ext_resource type="PackedScene" path="res://scenes/Shop/ShopArea.tscn" id="4_shoparea"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelPortal.cs" id="5_portal"]
 [ext_resource type="Texture2D" path="res://assets/Backgrounds/TitlePage.jpg" id="6_bg"]
 [ext_resource type="Texture2D" path="res://assets/other/platform1.png" id="7_platform"]
@@ -78,7 +78,7 @@ ShopUiPath = NodePath("../../../ShopUI")
 position = Vector2(120, 285)
 script = ExtResource("5_portal")
 RequiredUnlockedLevel = 1
-TargetScenePath = "res://Scenes/Levels/Level01.tscn"
+TargetScenePath = "res://scenes/Levels/Level01.tscn"
 DisplayName = "LEVEL 1"
 PromptLabelPath = NodePath("PromptLabel")
 StatusLabelPath = NodePath("StatusLabel")
@@ -117,7 +117,7 @@ horizontal_alignment = 1
 position = Vector2(390, 285)
 script = ExtResource("5_portal")
 RequiredUnlockedLevel = 2
-TargetScenePath = "res://Scenes/Levels/Level02.tscn"
+TargetScenePath = "res://scenes/Levels/Level02.tscn"
 DisplayName = "LEVEL 2"
 PromptLabelPath = NodePath("PromptLabel")
 StatusLabelPath = NodePath("StatusLabel")
@@ -156,7 +156,7 @@ horizontal_alignment = 1
 position = Vector2(660, 285)
 script = ExtResource("5_portal")
 RequiredUnlockedLevel = 3
-TargetScenePath = "res://Scenes/Levels/Level03.tscn"
+TargetScenePath = "res://scenes/Levels/Level03.tscn"
 DisplayName = "LEVEL 3"
 PromptLabelPath = NodePath("PromptLabel")
 StatusLabelPath = NodePath("StatusLabel")
