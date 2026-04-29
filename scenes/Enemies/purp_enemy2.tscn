@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxi22dkxxilnb"]
+
+[ext_resource type="Texture2D" uid="uid://kjnl0r3xqt0x" path="res://assets/enemies/recolor1/enemy2_recolors/enemy2_front_rc.png" id="1_db1is"]
+[ext_resource type="Texture2D" uid="uid://bqiklhho8lhy2" path="res://assets/enemies/recolor1/enemy2_recolors/enemy2_move1_rc.png" id="2_a2par"]
+[ext_resource type="Texture2D" uid="uid://bwmixg7gknunx" path="res://assets/enemies/recolor1/enemy2_recolors/enemy2_move2_rc.png" id="3_o480h"]
+[ext_resource type="Script" uid="uid://d16ruoho8ph21" path="res://Scripts/Enemies/EnemyAI.cs" id="4_db1is"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o480h"]
+radius = 15.0
+height = 52.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ifyfh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_db1is")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_a2par")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_o480h")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a2par"]
+radius = 40.0
+height = 170.0
+
+[node name="PurpEnemy2" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_o480h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -36)
+sprite_frames = SubResource("SpriteFrames_ifyfh")
+animation = &"idle"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -20.0
+offset_top = -65.0
+offset_right = 20.0
+offset_bottom = -58.0
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -41)
+shape = SubResource("CapsuleShape2D_a2par")
+
+[node name="EnemyAI" type="Node" parent="."]
+script = ExtResource("4_db1is")

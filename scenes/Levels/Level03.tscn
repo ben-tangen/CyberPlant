@@ -1,56 +1,75 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=23 format=3 uid="uid://c6u6dh7ogtsvq"]
 
-[ext_resource type="PackedScene" path="res://scenes/Player/Player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="2_hud"]
-[ext_resource type="PackedScene" path="res://scenes/Pickups/WaterPickup.tscn" id="3_water"]
-[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy2.tscn" id="4_enemy2"]
-[ext_resource type="PackedScene" path="res://scenes/Enemies/Enemy3.tscn" id="5_enemy3"]
-[ext_resource type="Script" path="res://Scripts/Levels/LevelExitArea.cs" id="6_exit"]
-[ext_resource type="Texture2D" path="res://assets/Backgrounds/Level03.jpg" id="7_bg"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1250, 86)
+[ext_resource type="PackedScene" uid="uid://cl3piyra5slg" path="res://scenes/Player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://bo1jyl08vefqt" path="res://scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" uid="uid://b84wd847gx6sf" path="res://scenes/Pickups/WaterPickup.tscn" id="3_water"]
+[ext_resource type="PackedScene" path="res://scenes/UI/ShopUI.tscn" id="3_y0axh"]
+[ext_resource type="PackedScene" uid="uid://bxi22dkxxilnb" path="res://scenes/Enemies/purp_enemy2.tscn" id="4_4iw3k"]
+[ext_resource type="Script" uid="uid://kfjwcrsqjwd6" path="res://Scripts/Enemies/Enemy.cs" id="4_y0axh"]
+[ext_resource type="Script" uid="uid://j7ssjpwaod5j" path="res://Scripts/Levels/LevelExitArea.cs" id="6_exit"]
+[ext_resource type="Texture2D" uid="uid://b1inrb34ifmby" path="res://assets/Backgrounds/Level03.jpg" id="7_bg"]
+[ext_resource type="PackedScene" uid="uid://d25hovpvlwt53" path="res://scenes/Enemies/purp_enemy.tscn" id="7_gl36e"]
+[ext_resource type="Texture2D" uid="uid://cii8uepdehiwh" path="res://assets/other/platform_recolor1.png" id="8_4iw3k"]
+[ext_resource type="Texture2D" uid="uid://hhrmu7877rnf" path="res://assets/other/wall.png" id="11_htfqg"]
+[ext_resource type="PackedScene" path="res://scenes/Shop/ShopArea.tscn" id="11_ycen8"]
+[ext_resource type="PackedScene" uid="uid://dr1lirlbjt480" path="res://scenes/Enemies/purp_enemy3.tscn" id="12_emn6v"]
+[ext_resource type="PackedScene" uid="uid://c7056n7pb2xb7" path="res://scenes/Enemies/Boss2.tscn" id="13_v6gbv"]
+[ext_resource type="Script" uid="uid://bsersv3dl0w8r" path="res://Scripts/Enemies/Boss.cs" id="14_k3m53"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(120, 160)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ycen8"]
+size = Vector2(1222.25, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_htfqg"]
+size = Vector2(88.66659, 12.000002)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emn6v"]
+size = Vector2(450.25, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6gbv"]
+size = Vector2(609.3333, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3m53"]
+size = Vector2(37.833313, 74.08334)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhb7o"]
+size = Vector2(204.50006, 20)
+
 [node name="Level03" type="Node2D"]
 
-[node name="Background" type="TextureRect" parent="."]
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 1180.0
-offset_bottom = 720.0
-texture = ExtResource("7_bg")
-expand_mode = 1
-stretch_mode = 6
-
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector2(-470, 8)
+position = Vector2(-32.00003, 327)
 scale = Vector2(1.5, 1.5)
 RespawnPosition = Vector2(-470, 8)
 
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+
 [node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="ShopUI" parent="." instance=ExtResource("3_y0axh")]
 
 [node name="World" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="World"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
-position = Vector2(10, 382)
-shape = SubResource("RectangleShape2D_ground")
+[node name="PurpEnemy" parent="World/Ground" instance=ExtResource("7_gl36e")]
+position = Vector2(288, 316)
+script = ExtResource("4_y0axh")
 
-[node name="Enemy3A" parent="World/Ground" instance=ExtResource("5_enemy3")]
-position = Vector2(80, 170)
+[node name="PurpEnemy2" parent="World/Ground" instance=ExtResource("7_gl36e")]
+position = Vector2(1316, 517)
+script = ExtResource("4_y0axh")
 
-[node name="Enemy3B" parent="World/Ground" instance=ExtResource("5_enemy3")]
-position = Vector2(560, 170)
+[node name="PurpEnemy3" parent="World/Ground" instance=ExtResource("4_4iw3k")]
+position = Vector2(3196, 847)
+script = ExtResource("4_y0axh")
 
-[node name="Enemy2A" parent="World/Ground" instance=ExtResource("4_enemy2")]
-position = Vector2(860, 204)
-
-[node name="Enemy2B" parent="World/Ground" instance=ExtResource("4_enemy2")]
-position = Vector2(1010, 204)
+[node name="PurpEnemy4" parent="World/Ground" instance=ExtResource("4_4iw3k")]
+position = Vector2(5796, 1425)
+script = ExtResource("4_y0axh")
 
 [node name="WaterPickupA" parent="World/Ground" instance=ExtResource("3_water")]
 position = Vector2(-180, 238)
@@ -59,10 +78,9 @@ position = Vector2(-180, 238)
 position = Vector2(360, 238)
 
 [node name="LevelExit" type="Area2D" parent="World/Ground"]
-position = Vector2(1110, 280)
+position = Vector2(7124, 1370)
 script = ExtResource("6_exit")
 CompletedLevelNumber = 3
-HomeScenePath = "res://scenes/Levels/Home.tscn"
 PromptLabelPath = NodePath("PromptLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/LevelExit"]
@@ -79,7 +97,8 @@ offset_top = -112.0
 offset_right = 78.0
 offset_bottom = -60.0
 theme_override_font_sizes/font_size = 14
-text = "EXIT\nReturn Home"
+text = "EXIT
+Return Home"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -93,3 +112,274 @@ theme_override_colors/font_color = Color(0.98, 1, 0.62, 1)
 theme_override_font_sizes/font_size = 14
 text = "Press E to complete"
 horizontal_alignment = 1
+
+[node name="PlatformTileRC" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-302.00003, 560)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC2" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(301, 560)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="ShopArea" parent="World/Ground" instance=ExtResource("11_ycen8")]
+position = Vector2(-503, 280)
+ShopUiPath = NodePath("../../../ShopUI")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(-10.125, 369)
+shape = SubResource("RectangleShape2D_ycen8")
+
+[node name="PlatformTileRC3" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(934.00006, 334)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(930.25006, 261)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="PlatformTileRC4" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(1277, 726.99994)
+scale = Vector2(5, 5)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC5" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(1881, 723)
+scale = Vector2(5, 5)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC6" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-851.00006, 270)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC7" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-1288, 92)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC8" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-1683, -72)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC9" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(-2023, -173)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(-854, 196)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(-1290, 21)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="WaterPickupA2" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(-1457, -105)
+
+[node name="WaterPickupA3" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(-1242, -102)
+
+[node name="WaterPickupA4" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(-1295, -104)
+
+[node name="WaterPickupA5" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(-1380, -110)
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(-1681, -146)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="PurpEnemy5" parent="World/Ground" instance=ExtResource("4_4iw3k")]
+position = Vector2(-1706, -193)
+script = ExtResource("4_y0axh")
+
+[node name="WaterPickupA6" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(1954, 480)
+
+[node name="WaterPickupA7" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(1719, 480)
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(1271.875, 588)
+shape = SubResource("RectangleShape2D_emn6v")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(1875, 585)
+shape = SubResource("RectangleShape2D_emn6v")
+
+[node name="PlatformTileRC10" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(2366, 892)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC11" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(6862, 1726)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC12" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(6260, 1725.0001)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC13" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(5659, 1722)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="Wall" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(5604, 1356.9999)
+scale = Vector2(3.720008, 6.2950006)
+texture = ExtResource("11_htfqg")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(6252, 1542)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_v6gbv")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(5608, 1395.875)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_k3m53")
+
+[node name="PurpEnemy6" parent="World/Ground" instance=ExtResource("12_emn6v")]
+position = Vector2(2366, 756)
+script = ExtResource("4_y0axh")
+
+[node name="PlatformTileRC14" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(2627, 893.00006)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(2366, 820)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="Wall2" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(2611.0002, 646.00006)
+scale = Vector2(3.720008, 6.2950006)
+texture = ExtResource("11_htfqg")
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(2615, 691.00006)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_k3m53")
+
+[node name="PlatformTileRC15" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(3113, 1043)
+scale = Vector2(5, 5)
+texture = ExtResource("8_4iw3k")
+
+[node name="PlatformTileRC16" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(3705.0002, 883.0001)
+scale = Vector2(5, 5)
+texture = ExtResource("8_4iw3k")
+
+[node name="PurpEnemy7" parent="World/Ground" instance=ExtResource("7_gl36e")]
+position = Vector2(3817, 683)
+script = ExtResource("4_y0axh")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(3106, 905)
+shape = SubResource("RectangleShape2D_emn6v")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(3700, 744)
+shape = SubResource("RectangleShape2D_emn6v")
+
+[node name="PlatformTileRC17" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(4412, 785.00006)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="ShopArea2" parent="World/Ground" instance=ExtResource("11_ycen8")]
+position = Vector2(4585, 504)
+ShopUiPath = NodePath("../../../ShopUI")
+
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(4404, 608)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_vhb7o")
+
+[node name="PlatformTileRC18" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(5021, 928)
+scale = Vector2(3, 3)
+texture = ExtResource("8_4iw3k")
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(5014, 858.00006)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(2626, 821)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="Boss2" parent="World/Ground" instance=ExtResource("13_v6gbv")]
+position = Vector2(6685, 1373)
+scale = Vector2(3, 3)
+script = ExtResource("14_k3m53")
+
+[node name="PlatformTileRC19" type="Sprite2D" parent="World/Ground"]
+texture_filter = 1
+position = Vector2(3678, 568)
+scale = Vector2(7, 7)
+texture = ExtResource("8_4iw3k")
+
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(3679, 394)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_vhb7o")
+
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="World/Ground"]
+position = Vector2(930.25006, 261)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_htfqg")
+
+[node name="BackgroundParallax" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="BackgroundLayer" type="ParallaxLayer" parent="BackgroundParallax"]
+motion_scale = Vector2(0.25, 0.18)
+motion_mirroring = Vector2(6000, 0)
+
+[node name="Background" type="TextureRect" parent="BackgroundParallax/BackgroundLayer"]
+texture_filter = 1
+offset_left = -3014.0
+offset_top = -2201.0
+offset_right = 2986.0
+offset_bottom = 2199.0
+texture = ExtResource("7_bg")
+expand_mode = 1
+stretch_mode = 6

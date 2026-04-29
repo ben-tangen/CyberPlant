@@ -1,17 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5hhmue8b0i7"]
+[gd_scene load_steps=10 format=3 uid="uid://c7056n7pb2xb7"]
 
-[ext_resource type="Script" uid="uid://bsersv3dl0w8r" path="res://Scripts/Enemies/Boss.cs" id="1_boss"]
-[ext_resource type="Script" uid="uid://b5bmo44oevi0g" path="res://Scripts/Enemies/BossAI.cs" id="2_bossai"]
-[ext_resource type="Texture2D" uid="uid://dt5478p3hhsqr" path="res://assets/bosses/boss.png" id="3_front"]
-[ext_resource type="Texture2D" uid="uid://c8x1c4ycerxo5" path="res://assets/bosses/boss2.png" id="4_move1"]
-[ext_resource type="Texture2D" uid="uid://hyy7i7kktxwj" path="res://assets/bosses/boss3.png" id="5_move2"]
-[ext_resource type="Texture2D" uid="uid://bbgyosm0k2hsq" path="res://assets/bosses/boss4.png" id="6_move3"]
+[ext_resource type="Texture2D" uid="uid://bk5uacipwlsn7" path="res://assets/bosses/lvl2_boss/lvl2_boss_move1.png" id="1_w473m"]
+[ext_resource type="Texture2D" uid="uid://b5wsbplnrrkib" path="res://assets/bosses/lvl2_boss/lvl2_boss_move2.png" id="2_lym0g"]
+[ext_resource type="Script" uid="uid://b5bmo44oevi0g" path="res://Scripts/Enemies/BossAI.cs" id="3_lhku1"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_boss"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3f1n3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_front")
+"texture": ExtResource("1_w473m")
 }],
 "loop": true,
 "name": &"idle",
@@ -19,24 +16,21 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_move1")
+"texture": ExtResource("1_w473m")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_move2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_move3")
+"texture": ExtResource("2_lym0g")
 }],
 "loop": true,
 "name": &"walk",
 "speed": 6.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v47l"]
 radius = 24.0
 height = 64.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_lym0g"]
 radius = 50.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_healthbg"]
@@ -55,36 +49,34 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.1, 0.6, 0.1, 1)
 
-[sub_resource type="Theme" id="Theme_health"]
+[sub_resource type="Theme" id="Theme_54ass"]
 ProgressBar/styles/background = SubResource("StyleBoxFlat_healthbg")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_health")
 
-[node name="Boss" type="CharacterBody2D"]
-scale = Vector2(2.5, 2.5)
-script = ExtResource("1_boss")
+[node name="Boss2" type="CharacterBody2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0, -6)
 scale = Vector2(0.24, 0.24)
-sprite_frames = SubResource("SpriteFrames_boss")
+sprite_frames = SubResource("SpriteFrames_3f1n3")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_1")
+shape = SubResource("CapsuleShape2D_0v47l")
 
 [node name="AttackHitbox" type="Area2D" parent="."]
 
 [node name="AttackCollision" type="CollisionShape2D" parent="AttackHitbox"]
-shape = SubResource("CircleShape2D_attack")
+shape = SubResource("CircleShape2D_lym0g")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -34.4
 offset_top = -73.6
 offset_right = 29.599998
 offset_bottom = -46.6
-theme = SubResource("Theme_health")
+theme = SubResource("Theme_54ass")
 value = 100.0
 
 [node name="BossAI" type="Node" parent="."]
-script = ExtResource("2_bossai")
+script = ExtResource("3_lhku1")

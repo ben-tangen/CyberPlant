@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://dr1lirlbjt480"]
+
+[ext_resource type="Texture2D" uid="uid://qewu6y1wv6xg" path="res://assets/enemies/recolor1/enemy3_recolors/enemy3_front_rc.png" id="1_s601e"]
+[ext_resource type="Texture2D" uid="uid://v8px88te3tjd" path="res://assets/enemies/recolor1/enemy3_recolors/enemy3_move1_rc.png" id="2_r5wkp"]
+[ext_resource type="Texture2D" uid="uid://btpnjthla775x" path="res://assets/enemies/recolor1/enemy3_recolors/enemy3_move2_rc.png" id="3_ci6kx"]
+[ext_resource type="Texture2D" uid="uid://dqw71uma5n5y4" path="res://assets/enemies/recolor1/enemy3_recolors/enemy3_move3_rc.png" id="4_lcd1u"]
+[ext_resource type="Script" uid="uid://d16ruoho8ph21" path="res://Scripts/Enemies/EnemyAI.cs" id="5_22eax"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cds1u"]
+radius = 19.0
+height = 64.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qjffn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_s601e")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_r5wkp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ci6kx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lcd1u")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_id56b"]
+radius = 44.0
+height = 182.0
+
+[node name="PurpEnemy3" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_cds1u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -44)
+sprite_frames = SubResource("SpriteFrames_qjffn")
+animation = &"idle"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -24.0
+offset_top = -79.0
+offset_right = 24.0
+offset_bottom = -72.0
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -44)
+shape = SubResource("CapsuleShape2D_id56b")
+
+[node name="EnemyAI" type="Node" parent="."]
+script = ExtResource("5_22eax")
