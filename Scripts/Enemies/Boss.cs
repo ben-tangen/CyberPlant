@@ -19,13 +19,13 @@ public partial class Boss : CharacterBody2D, IDamageable
     [Signal]
     public delegate void PhaseChangedEventHandler(int phase);
 
-    [Export] public int MaxHealth { get; set; } = 150;
-    [Export] public int WaterDropAmount { get; set; } = 50;
-    [Export] public float HitStunDuration { get; set; } = 0.15f;
-    [Export] public float HitFlashDuration { get; set; } = 0.1f;
-    [Export] public float KnockbackForce { get; set; } = 200.0f;
-    [Export] public float KnockbackLift { get; set; } = 120.0f;
-    [Export] public float KnockbackDamping { get; set; } = 800.0f;
+    [Export] public int MaxHealth { get; set; } = 200;
+    [Export] public int WaterDropAmount { get; set; } = 75;
+    [Export] public float HitStunDuration { get; set; } = 0.20f;
+    [Export] public float HitFlashDuration { get; set; } = 0.12f;
+    [Export] public float KnockbackForce { get; set; } = 190.0f;
+    [Export] public float KnockbackLift { get; set; } = 140.0f;
+    [Export] public float KnockbackDamping { get; set; } = 920.0f;
 
     public int CurrentHealth { get; private set; }
     public bool IsInHitStun => _hitStunRemaining > 0.0f;
@@ -36,6 +36,16 @@ public partial class Boss : CharacterBody2D, IDamageable
     private float _hitStunRemaining;
     private float _hitFlashRemaining;
     private int _damageThresholdForPhase2;
+    private Vector2 _baseSpriteScale = Vector2.One;
+    private bool _isFacingRight = true;
+    private bool _isTelegraphing;
+    private bool _isTelegraphPhaseTwo;
+    private float _telegraphProgress;
+    private float _telegraphPulseTime;
+
+    private readonly Color _hitFlashColor = new(1.45f, 0.55f, 0.55f, 1.0f);
+    private readonly Color _phaseOneTelegraphColor = new(1.0f, 0.66f, 0.42f, 1.0f);
+    private readonly Color _phaseTwoTelegraphColor = new(1.0f, 0.82f, 0.36f, 1.0f);
 
     public override void _Ready()
     {
@@ -44,11 +54,17 @@ public partial class Boss : CharacterBody2D, IDamageable
 
         _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
         _healthBar = GetNodeOrNull<ProgressBar>("HealthBar");
+        if (_animatedSprite != null)
+        {
+            _baseSpriteScale = _animatedSprite.Scale;
+        }
+
         CurrentHealth = MaxHealth;
         _damageThresholdForPhase2 = MaxHealth / 2; // Phase 2 at 50% health
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
         _animatedSprite?.Play("idle");
         UpdateHealthBarDisplay();
+        RefreshCombatVisualState(0.0f);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -66,12 +82,9 @@ public partial class Boss : CharacterBody2D, IDamageable
         if (_hitFlashRemaining > 0.0f)
         {
             _hitFlashRemaining = Mathf.Max(0.0f, _hitFlashRemaining - dt);
-            Modulate = new Color(1.5f, 0.5f, 0.5f, 1.0f);
         }
-        else if (Modulate != Colors.White)
-        {
-            Modulate = Colors.White;
-        }
+
+        RefreshCombatVisualState(dt);
     }
 
     public void UpdateVisualState(float horizontalVelocity)
@@ -88,16 +101,37 @@ public partial class Boss : CharacterBody2D, IDamageable
                 _animatedSprite.Play("idle");
             }
 
-            _animatedSprite.FlipH = false;
+            RefreshFacing();
             return;
         }
+
+        _isFacingRight = horizontalVelocity > 0.0f;
 
         if (_animatedSprite.Animation != "walk")
         {
             _animatedSprite.Play("walk");
         }
 
-        _animatedSprite.FlipH = horizontalVelocity > 0.0f;
+        RefreshFacing();
+    }
+
+    public void SetTelegraphState(bool isTelegraphing, bool isPhaseTwo, float progress)
+    {
+        _isTelegraphing = isTelegraphing;
+        _isTelegraphPhaseTwo = isPhaseTwo;
+        _telegraphProgress = Mathf.Clamp(progress, 0.0f, 1.0f);
+
+        if (!isTelegraphing)
+        {
+            _telegraphPulseTime = 0.0f;
+        }
+
+        RefreshCombatVisualState(0.0f);
+    }
+
+    public void ClearTelegraphState()
+    {
+        SetTelegraphState(false, _isTelegraphPhaseTwo, 0.0f);
     }
 
     public void TakeDamage(int amount)
@@ -144,6 +178,7 @@ public partial class Boss : CharacterBody2D, IDamageable
         Velocity = velocity;
         _hitStunRemaining = Mathf.Max(_hitStunRemaining, HitStunDuration);
         _hitFlashRemaining = Mathf.Max(_hitFlashRemaining, HitFlashDuration);
+        ClearTelegraphState();
     }
 
     private void UpdateHealthBarDisplay()
@@ -155,6 +190,52 @@ public partial class Boss : CharacterBody2D, IDamageable
 
         _healthBar.MaxValue = MaxHealth;
         _healthBar.Value = CurrentHealth;
+    }
+
+    private void RefreshCombatVisualState(float dt)
+    {
+        if (_isTelegraphing)
+        {
+            _telegraphPulseTime += dt;
+        }
+
+        Color tint = Colors.White;
+        if (_hitFlashRemaining > 0.0f)
+        {
+            tint = _hitFlashColor;
+        }
+        else if (_isTelegraphing)
+        {
+            Color telegraphColor = _isTelegraphPhaseTwo ? _phaseTwoTelegraphColor : _phaseOneTelegraphColor;
+            float pulse = 0.55f + 0.45f * Mathf.Sin(_telegraphPulseTime * (_isTelegraphPhaseTwo ? 14.0f : 10.0f));
+            float blend = Mathf.Clamp(0.12f + (1.0f - _telegraphProgress) * 0.20f + pulse * 0.10f, 0.0f, 0.65f);
+            tint = telegraphColor.Lerp(Colors.White, blend);
+        }
+
+        Modulate = tint;
+
+        if (_animatedSprite != null)
+        {
+            if (_isTelegraphing)
+            {
+                float pulse = 1.0f + 0.05f * Mathf.Sin(_telegraphPulseTime * (_isTelegraphPhaseTwo ? 16.0f : 11.0f));
+                _animatedSprite.Scale = _baseSpriteScale * pulse;
+            }
+            else
+            {
+                _animatedSprite.Scale = _baseSpriteScale;
+            }
+
+            _animatedSprite.FlipH = !_isFacingRight;
+        }
+    }
+
+    private void RefreshFacing()
+    {
+        if (_animatedSprite != null)
+        {
+            _animatedSprite.FlipH = !_isFacingRight;
+        }
     }
 
     private void Die()

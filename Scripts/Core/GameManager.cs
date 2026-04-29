@@ -1,5 +1,6 @@
 #nullable enable
 using Godot;
+using CyberPlant.Combat;
 
 namespace CyberPlant.Core;
 
@@ -33,11 +34,9 @@ public partial class GameManager : Node
     public Node2D? CurrentPlayer { get; private set; }
 
     private readonly InventoryItem?[] _inventorySlots = new InventoryItem?[InventorySlotCount];
-    private Texture2D? _defaultInventoryIcon;
 
     public override void _Ready()
     {
-        _defaultInventoryIcon = GD.Load<Texture2D>("res://assets/icon.svg");
         InitializeInventory();
 
         Water = 0;
@@ -205,7 +204,8 @@ public partial class GameManager : Node
             _inventorySlots[slotIndex] = null;
         }
 
-        _inventorySlots[0] = new InventoryItem("base_item", "Base Item", _defaultInventoryIcon);
+        _inventorySlots[0] = WeaponCatalog.CreateInventoryItem("kick")
+            ?? new InventoryItem("kick", "Kick", GD.Load<Texture2D>("res://assets/player/player_kick.png"));
         ActiveInventorySlotIndex = 0;
 
         for (int slotIndex = 0; slotIndex < InventorySlotCount; slotIndex += 1)

@@ -20,15 +20,16 @@ public partial class Player : CharacterBody2D, IDamageable
     [Signal]
     public delegate void DiedEventHandler();
 
-    [Export] public float MoveSpeed { get; set; } = 300.0f;
+    [Export] public float MoveSpeed { get; set; } = 280.0f;
     [Export] public float JumpVelocity { get; set; } = -700.0f;
-    [Export] public float FallGravityMultiplier { get; set; } = 1.8f;
-    [Export] public float JumpReleaseGravityMultiplier { get; set; } = 2.4f;
-    [Export] public float MaxFallSpeed { get; set; } = 1100.0f;
-    [Export] public float DamageKnockbackForce { get; set; } = 230.0f;
-    [Export] public float DamageKnockbackDecay { get; set; } = 1250.0f;
-    [Export] public float DamageKnockbackLift { get; set; } = 120.0f;
-    [Export] public float DamageFlashDuration { get; set; } = 0.10f;
+    [Export] public float FallGravityMultiplier { get; set; } = 2.05f;
+    [Export] public float JumpReleaseGravityMultiplier { get; set; } = 2.85f;
+    [Export] public float MaxFallSpeed { get; set; } = 1200.0f;
+    [Export] public float DamageKnockbackForce { get; set; } = 280.0f;
+    [Export] public float DamageKnockbackDecay { get; set; } = 1450.0f;
+    [Export] public float DamageKnockbackLift { get; set; } = 160.0f;
+    [Export] public float DamageFlashDuration { get; set; } = 0.09f;
+    [Export] public float AttackAnimationDuration { get; set; } = 0.12f;
     [Export] public float FallDeathY { get; set; } = 3200.0f;
     [Export] public Vector2 RespawnPosition { get; set; } = Vector2.Zero;
 
@@ -42,10 +43,13 @@ public partial class Player : CharacterBody2D, IDamageable
     private WeaponController? _weaponController;
     private GameManager? _gameManager;
     private Sprite2D? _weaponVisual;
+    private Texture2D? _activeWeaponVisualTexture;
     private double _weaponAnimationTime = 0.0;
     private bool _isWeaponAnimating = false;
     private bool _isFacingRight = true;
     private bool _hasActiveWeapon = false;
+    private bool _showWeaponVisual = false;
+    private bool _usesArmedAnimations = false;
     private float _damageFlashRemaining;
     private float _damageKnockbackVelocityX;
     private Vector2 _levelStartPosition;
@@ -131,11 +135,12 @@ public partial class Player : CharacterBody2D, IDamageable
         if (_isWeaponAnimating)
         {
             _weaponAnimationTime += delta;
-            if (_weaponAnimationTime < 0.15)
+            float attackAnimationDuration = Mathf.Max(0.01f, AttackAnimationDuration);
+            if (_weaponAnimationTime < attackAnimationDuration)
             {
                 if (_weaponVisual != null)
                 {
-                    float progress = (float)(_weaponAnimationTime / 0.15);
+                    float progress = (float)(_weaponAnimationTime / attackAnimationDuration);
                     _weaponVisual.Rotation = Mathf.Lerp(0f, Mathf.Pi / 4, progress);
                 }
             }
@@ -222,6 +227,16 @@ public partial class Player : CharacterBody2D, IDamageable
         var weapon = WeaponCatalog.GetWeaponForItem(item?.Id);
 
         _hasActiveWeapon = weapon != null;
+        _usesArmedAnimations = weapon?.Id == "plant_gun";
+        _showWeaponVisual = weapon != null && weapon.Id is "thorn_blade" or "vine_whip";
+        _activeWeaponVisualTexture = item?.Icon;
+
+        if (_weaponVisual != null)
+        {
+            _weaponVisual.Texture = _activeWeaponVisualTexture;
+            _weaponVisual.Rotation = 0f;
+        }
+
         _weaponController.SetWeapon(weapon);
         UpdateVisualState(Velocity.X);
     }
@@ -303,15 +318,15 @@ public partial class Player : CharacterBody2D, IDamageable
         string animationName;
         if (_isWeaponAnimating)
         {
-            animationName = _hasActiveWeapon ? AttackArmedAnimation : AttackAnimation;
+            animationName = _usesArmedAnimations ? AttackArmedAnimation : AttackAnimation;
         }
         else if (Mathf.IsZeroApprox(moveInput))
         {
-            animationName = _hasActiveWeapon ? IdleArmedAnimation : IdleAnimation;
+            animationName = _usesArmedAnimations ? IdleArmedAnimation : IdleAnimation;
         }
         else
         {
-            animationName = _hasActiveWeapon ? WalkArmedAnimation : WalkAnimation;
+            animationName = _usesArmedAnimations ? WalkArmedAnimation : WalkAnimation;
         }
 
         if (_animatedSprite.Animation != animationName)
@@ -323,7 +338,7 @@ public partial class Player : CharacterBody2D, IDamageable
 
         if (_weaponVisual != null)
         {
-            _weaponVisual.Visible = false;
+            _weaponVisual.Visible = _showWeaponVisual && _activeWeaponVisualTexture != null;
             _weaponVisual.FlipH = !_isFacingRight;
         }
 

@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bvqovpnevk1p3" path="res://assets/player/player_move4_gun.png" id="11_walk4_gun"]
 [ext_resource type="Texture2D" uid="uid://dnwt5el1tt1ws" path="res://assets/player/player_punch.png" id="12_attack"]
 [ext_resource type="Texture2D" uid="uid://067tpewimbu3" path="res://assets/player/player_kick_gun.png" id="13_attack_gun"]
-[ext_resource type="Texture2D" uid="uid://ckgb2emxhfe36" path="res://assets/player/plant_gun.png" id="14_weapon"]
+[ext_resource type="Texture2D" uid="uid://c56c1j61eaeyp" path="res://assets/player/plant_projectile.png" id="14_weapon"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s0eop"]
 radius = 26.0

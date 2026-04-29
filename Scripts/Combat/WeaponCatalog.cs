@@ -47,46 +47,46 @@ public static class WeaponCatalog
 {
     private static readonly Dictionary<string, WeaponDefinition> Definitions = new()
     {
-        ["base_item"] = new WeaponDefinition(
-            id: "base_item",
-            displayName: "Starter Sprout",
-            damage: 10,
-            attackCooldown: 0.30f,
-            hitRadius: 11.0f,
-            hitOffsetX: 24.0f,
+        ["kick"] = new WeaponDefinition(
+            id: "kick",
+            displayName: "Kick",
+            damage: 12,
+            attackCooldown: 0.27f,
+            hitRadius: 12.5f,
+            hitOffsetX: 26.0f,
             requiredLevel: 1,
             shopCost: 0,
-            iconPath: "res://assets/icon.svg",
+            iconPath: "res://assets/player/player_kick.png",
             purchasable: false),
         ["thorn_blade"] = new WeaponDefinition(
             id: "thorn_blade",
             displayName: "Thorn Blade",
-            damage: 16,
-            attackCooldown: 0.38f,
-            hitRadius: 13.0f,
-            hitOffsetX: 28.0f,
+            damage: 18,
+            attackCooldown: 0.35f,
+            hitRadius: 14.0f,
+            hitOffsetX: 30.0f,
             requiredLevel: 1,
             shopCost: 35,
-            iconPath: "res://assets/player/plant_gun.png",
+            iconPath: "res://assets/player/thorn_blade/thorn_blade.png",
             purchasable: true),
         ["vine_whip"] = new WeaponDefinition(
             id: "vine_whip",
             displayName: "Vine Whip",
-            damage: 8,
-            attackCooldown: 0.20f,
-            hitRadius: 18.0f,
-            hitOffsetX: 36.0f,
+            damage: 14,
+            attackCooldown: 0.18f,
+            hitRadius: 19.0f,
+            hitOffsetX: 38.0f,
             requiredLevel: 2,
             shopCost: 45,
-            iconPath: "res://assets/player/plant_projectile.png",
+            iconPath: "res://assets/player/vine_whip/vine_whip.png",
             purchasable: true),
-        ["spore_burst"] = new WeaponDefinition(
-            id: "spore_burst",
-            displayName: "Spore Burst",
-            damage: 24,
-            attackCooldown: 0.62f,
-            hitRadius: 16.0f,
-            hitOffsetX: 30.0f,
+        ["plant_gun"] = new WeaponDefinition(
+            id: "plant_gun",
+            displayName: "Plant Gun",
+            damage: 20,
+            attackCooldown: 0.55f,
+            hitRadius: 17.0f,
+            hitOffsetX: 34.0f,
             requiredLevel: 3,
             shopCost: 60,
             iconPath: "res://assets/player/plant_gun.png",
@@ -97,7 +97,7 @@ public static class WeaponCatalog
     {
         "thorn_blade",
         "vine_whip",
-        "spore_burst",
+        "plant_gun",
     };
 
     public static Weapon? GetWeaponForItem(string? itemId)
@@ -145,4 +145,5 @@ public static class WeaponCatalog
 
         return result;
     }
+
 }
