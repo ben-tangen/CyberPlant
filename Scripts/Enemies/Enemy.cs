@@ -13,13 +13,13 @@ public partial class Enemy : CharacterBody2D, IDamageable
     [Signal]
     public delegate void DiedEventHandler();
 
-    [Export] public int MaxHealth { get; set; } = 30;
+    [Export] public int MaxHealth { get; set; } = 32;
     [Export] public int WaterDropAmount { get; set; } = 5;
-    [Export] public float HitStunDuration { get; set; } = 0.12f;
-    [Export] public float HitFlashDuration { get; set; } = 0.08f;
-    [Export] public float KnockbackForce { get; set; } = 260.0f;
-    [Export] public float KnockbackLift { get; set; } = 140.0f;
-    [Export] public float KnockbackDamping { get; set; } = 900.0f;
+    [Export] public float HitStunDuration { get; set; } = 0.10f;
+    [Export] public float HitFlashDuration { get; set; } = 0.07f;
+    [Export] public float KnockbackForce { get; set; } = 240.0f;
+    [Export] public float KnockbackLift { get; set; } = 150.0f;
+    [Export] public float KnockbackDamping { get; set; } = 980.0f;
 
     public int CurrentHealth { get; private set; }
     public bool IsInHitStun => _hitStunRemaining > 0.0f;
@@ -35,6 +35,11 @@ public partial class Enemy : CharacterBody2D, IDamageable
 
         _animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
         _healthBar = GetNodeOrNull<ProgressBar>("HealthBar");
+        if (_healthBar != null)
+        {
+            _healthBar.ShowPercentage = false;
+        }
+
         CurrentHealth = MaxHealth;
         EmitSignal(SignalName.HealthChanged, CurrentHealth, MaxHealth);
         _animatedSprite?.Play("idle");
@@ -56,7 +61,7 @@ public partial class Enemy : CharacterBody2D, IDamageable
         if (_hitFlashRemaining > 0.0f)
         {
             _hitFlashRemaining = Mathf.Max(0.0f, _hitFlashRemaining - dt);
-            Modulate = new Color(1.25f, 0.65f, 0.65f, 1.0f);
+            Modulate = new Color(1.22f, 0.7f, 0.68f, 1.0f);
         }
         else if (Modulate != Colors.White)
         {

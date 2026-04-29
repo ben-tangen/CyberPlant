@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cd4m2w7qkmb1x"]
 
-[ext_resource type="Script" path="res://Scripts/UI/ShopUI.cs" id="1_shopui"]
+[ext_resource type="Script" uid="uid://fuimig0332g" path="res://Scripts/UI/ShopUI.cs" id="1_shopui"]
 
 [node name="ShopUI" type="CanvasLayer"]
 script = ExtResource("1_shopui")
@@ -39,9 +39,9 @@ text = "Buy Thorn Blade - 35 Water"
 layout_mode = 2
 text = "Buy Vine Whip - 45 Water"
 
-[node name="BuySporeBurstButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="BuyPlantGunButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Buy Spore Burst - 60 Water"
+text = "Buy Plant Gun - 60 Water"
 
 [node name="StatusLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

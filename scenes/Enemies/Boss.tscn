@@ -12,7 +12,7 @@ radius = 24.0
 height = 64.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
-radius = 50.0
+radius = 66.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
 bg_color = Color(0.2, 0.8, 0.2, 1.0)
@@ -62,8 +62,8 @@ animations = [{
 [node name="Boss" type="CharacterBody2D"]
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_boss")
-MaxHealth = 150
-WaterDropAmount = 50
+MaxHealth = 200
+WaterDropAmount = 75
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -90,11 +90,23 @@ value = 100.0
 
 [node name="BossAI" type="Node" parent="."]
 script = ExtResource("2_bossai")
-Phase1PatrolSpeed = 80.0
-Phase2PatrolSpeed = 120.0
-Phase1AttackRange = 150.0
-Phase2AttackRange = 170.0
-AttackHeightTolerance = 140.0
-Phase1AttackCooldown = 2.0
-Phase2AttackCooldown = 1.2
-AttackDamage = 25
+Phase1PatrolSpeed = 84.0
+Phase2PatrolSpeed = 132.0
+PatrolDistance = 220.0
+Phase1DetectionRange = 270.0
+Phase2DetectionRange = 380.0
+Phase1AttackRange = 138.0
+Phase2AttackRange = 184.0
+AttackHeightTolerance = 150.0
+Phase1AttackCooldown = 1.8
+Phase2AttackCooldown = 1.05
+Phase1TelegraphDuration = 0.55
+Phase2TelegraphDuration = 0.34
+Phase1AttackActiveDuration = 0.18
+Phase2AttackActiveDuration = 0.22
+Phase1RecoveryDuration = 0.72
+Phase2RecoveryDuration = 0.52
+AttackDamage = 18
+Phase2AttackDamage = 24
+Phase2LungeSpeed = 220.0
+ChaseSpeedMultiplier = 1.75
