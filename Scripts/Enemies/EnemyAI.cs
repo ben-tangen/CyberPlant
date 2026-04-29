@@ -7,13 +7,13 @@ namespace CyberPlant.Enemies;
 
 public partial class EnemyAI : Node
 {
-    [Export] public float PatrolSpeed { get; set; } = 100.0f;
-    [Export] public float PatrolDistance { get; set; } = 140.0f;
-    [Export] public float DetectionRange { get; set; } = 200.0f;
-    [Export] public float AttackRange { get; set; } = 60.0f;
-    [Export] public float AttackCooldown { get; set; } = 1.5f;
-    [Export] public int AttackDamage { get; set; } = 15;
-    [Export] public float ChaseSpeedMultiplier { get; set; } = 1.5f;
+    [Export] public float PatrolSpeed { get; set; } = 108.0f;
+    [Export] public float PatrolDistance { get; set; } = 150.0f;
+    [Export] public float DetectionRange { get; set; } = 220.0f;
+    [Export] public float AttackRange { get; set; } = 58.0f;
+    [Export] public float AttackCooldown { get; set; } = 1.35f;
+    [Export] public int AttackDamage { get; set; } = 12;
+    [Export] public float ChaseSpeedMultiplier { get; set; } = 1.6f;
     [Export] public float GroundCheckForwardDistance { get; set; } = 24.0f;
     [Export] public float GroundCheckDepth { get; set; } = 80.0f;
     [Export] public float MaxFallSpeed { get; set; } = 1200.0f;

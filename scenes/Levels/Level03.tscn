@@ -59,17 +59,36 @@ position_smoothing_enabled = true
 position = Vector2(288, 316)
 script = ExtResource("4_y0axh")
 
+<<<<<<< HEAD
 [node name="PurpEnemy2" parent="World/Ground" instance=ExtResource("7_gl36e")]
 position = Vector2(1316, 517)
 script = ExtResource("4_y0axh")
+=======
+[node name="Enemy3A" parent="World/Ground" instance=ExtResource("5_enemy3")]
+position = Vector2(120, 170)
+>>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
 
 [node name="PurpEnemy3" parent="World/Ground" instance=ExtResource("4_4iw3k")]
 position = Vector2(3196, 847)
 script = ExtResource("4_y0axh")
 
+<<<<<<< HEAD
 [node name="PurpEnemy4" parent="World/Ground" instance=ExtResource("4_4iw3k")]
 position = Vector2(5796, 1425)
 script = ExtResource("4_y0axh")
+=======
+[node name="Enemy2A" parent="World/Ground" instance=ExtResource("4_enemy2")]
+position = Vector2(860, 204)
+
+[node name="Enemy2B" parent="World/Ground" instance=ExtResource("4_enemy2")]
+position = Vector2(1040, 204)
+
+[node name="Enemy3C" parent="World/Ground" instance=ExtResource("5_enemy3")]
+position = Vector2(320, 110)
+
+[node name="Enemy2C" parent="World/Ground" instance=ExtResource("4_enemy2")]
+position = Vector2(720, 150)
+>>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
 
 [node name="WaterPickupA" parent="World/Ground" instance=ExtResource("3_water")]
 position = Vector2(-180, 238)
@@ -77,8 +96,66 @@ position = Vector2(-180, 238)
 [node name="WaterPickupB" parent="World/Ground" instance=ExtResource("3_water")]
 position = Vector2(360, 238)
 
+[node name="WaterPickupC" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(780, 90)
+
+[node name="WaterPickupD" parent="World/Ground" instance=ExtResource("3_water")]
+position = Vector2(1120, 110)
+
+[node name="Platform1" type="StaticBody2D" parent="World"]
+position = Vector2(190, 270)
+
+[node name="Platform1Collision" type="CollisionShape2D" parent="World/Platform1"]
+shape = RectangleShape2D {
+	size = Vector2(140, 20)
+}
+
+[node name="Platform1Visual" type="Polygon2D" parent="World/Platform1"]
+color = Color(0.36, 0.58, 0.4, 1.0)
+polygon = PackedVector2Array(-70, 10, 70, 10, 70, -10, -70, -10)
+
+[node name="Platform2" type="StaticBody2D" parent="World"]
+position = Vector2(470, 220)
+
+[node name="Platform2Collision" type="CollisionShape2D" parent="World/Platform2"]
+shape = RectangleShape2D {
+	size = Vector2(150, 20)
+}
+
+[node name="Platform2Visual" type="Polygon2D" parent="World/Platform2"]
+color = Color(0.36, 0.58, 0.4, 1.0)
+polygon = PackedVector2Array(-75, 10, 75, 10, 75, -10, -75, -10)
+
+[node name="Platform3" type="StaticBody2D" parent="World"]
+position = Vector2(760, 170)
+
+[node name="Platform3Collision" type="CollisionShape2D" parent="World/Platform3"]
+shape = RectangleShape2D {
+	size = Vector2(150, 20)
+}
+
+[node name="Platform3Visual" type="Polygon2D" parent="World/Platform3"]
+color = Color(0.36, 0.58, 0.4, 1.0)
+polygon = PackedVector2Array(-75, 10, 75, 10, 75, -10, -75, -10)
+
+[node name="Platform4" type="StaticBody2D" parent="World"]
+position = Vector2(1040, 120)
+
+[node name="Platform4Collision" type="CollisionShape2D" parent="World/Platform4"]
+shape = RectangleShape2D {
+	size = Vector2(160, 20)
+}
+
+[node name="Platform4Visual" type="Polygon2D" parent="World/Platform4"]
+color = Color(0.36, 0.58, 0.4, 1.0)
+polygon = PackedVector2Array(-80, 10, 80, 10, 80, -10, -80, -10)
+
 [node name="LevelExit" type="Area2D" parent="World/Ground"]
+<<<<<<< HEAD
 position = Vector2(7124, 1370)
+=======
+position = Vector2(1200, 280)
+>>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
 script = ExtResource("6_exit")
 CompletedLevelNumber = 3
 PromptLabelPath = NodePath("PromptLabel")

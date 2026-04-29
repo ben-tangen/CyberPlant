@@ -4,8 +4,8 @@
 |---|---|---|---|---|---|
 | J1 | One enemy working (base enemy + attack) | Done | P2, B1 | J2, T05 | Base enemy scene, AI chase/patrol, attack damage, and death handling exist in the repo. |
 | J2 | Enemy variations (3-5) + tuning | Done | J1, B3 | J3, T13 | Build from base enemy scene inheritance. |
-| J3 | Boss prototype | Not Started | J2, B3 | T13 | Define phase hooks early to avoid rework. |
-| J4 | Structure Design | Not Started | Unblocked | Level Building | Build structures such as walls, floors, ceilings, etc. for level building. |
+| J3 | Boss prototype | Done | J2, B3 | T13 | Define phase hooks early to avoid rework. |
+| J4 | Structure Design | Done | Unblocked | Level Building | Build structures such as walls, floors, ceilings, etc. for level building. |
 
 ## External blockers for Judah
 - Baseline enemy variation and weapon behavior blockers are cleared; boss prototyping can now start.

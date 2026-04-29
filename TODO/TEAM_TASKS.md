@@ -13,20 +13,20 @@
 ## Gameplay Expansion
 | ID | Task | Owner | Status | Blocked By | Unblocks |
 |---|---|---|---|---|---|
-| T07 | Movement/combat feel polish | Ben | Not Started | T02, T03 | T13 |
+| T07 | Movement/combat feel polish | Ben | Done | T02, T03 | T13 |
 | T08 | Weapon system (switching + behaviors) | Ben | Done | T03 | T11, T12, T13 |
 | T09 | Enemy variations (3-5 types) | Judah | Done | T04 | T12, T13 |
 | T10 | Main menu + level flow wiring | Peyton | Done | T05, T06 | T14 |
 | T11 | Water currency loop (pickup -> manager -> UI) | Peyton | Done | T06, T08 | T14 |
-| T12 | Boss prototype | Judah | Not Started | T03, T04, T08, T09 | T13 |
+| T12 | Boss prototype | Judah | Done | T03, T04, T08, T09 | T13 |
 
 ## Production
 | ID | Task | Owner | Status | Blocked By | Unblocks |
 |---|---|---|---|---|---|
-| T13 | Balance + game-feel pass | Shared | Not Started | T07, T08, T09, T12 | T14 |
-| T14 | Final QA + bug fixing + submission prep | Shared | Not Started | T10, T11, T13 | None |
+| T13 | Balance + game-feel pass | Shared | Done | T07, T08, T09, T12 | T14 |
+| T14 | Final QA + bug fixing + submission prep | Shared | In Progress | T10, T11, T13 | None |
 
 ## Blocking Highlights
-- Ben's weapon-system blocker is cleared; remaining Ben-owned work is `T07` feel polish.
-- Judah's enemy variation and weapon blockers are cleared, so the next major work is `T12` boss prototyping.
-- Peyton's baseline UI and menu flow are in place, so the remaining shared work is content, balancing, and final integration.
+- Gameplay feel, boss behavior, and level balancing are now in place.
+- Remaining shared work is final QA, bug fixing, submission prep, and the still-missing audio polish.
+- Sound effects and background music still need source assets or a procedural audio pass.

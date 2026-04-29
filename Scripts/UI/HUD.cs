@@ -37,6 +37,7 @@ public partial class HUD : CanvasLayer
     private readonly StyleBoxFlat _inactiveSlotStyle = new();
     private readonly StyleBoxFlat _activeSlotStyle = new();
     private readonly StyleBoxFlat _healthFillStyle = new();
+    private double _inventoryAnimationTime;
 
     public override void _Ready()
     {
@@ -81,6 +82,17 @@ public partial class HUD : CanvasLayer
         {
             BindPlayer(existingPlayer);
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_gameManager == null)
+        {
+            return;
+        }
+
+        _inventoryAnimationTime += delta;
+        UpdateAnimatedInventoryIcons();
     }
 
     private void OnPlayerRegistered(Node2D registeredPlayer)
@@ -157,6 +169,8 @@ public partial class HUD : CanvasLayer
         {
             UpdateActiveSlotVisuals(_gameManager.ActiveInventorySlotIndex);
         }
+
+        UpdateAnimatedInventoryIcons();
     }
 
     private void UpdateInventorySlot(int slotIndex)
@@ -171,8 +185,8 @@ public partial class HUD : CanvasLayer
 
         if (icon != null)
         {
-            icon.Texture = item?.Icon;
-            icon.Visible = item?.Icon != null;
+            icon.Texture = GetInventoryTexture(item);
+            icon.Visible = item != null;
             icon.Modulate = item == null
                 ? new Color(1f, 1f, 1f, 0.2f)
                 : Colors.White;
@@ -215,6 +229,43 @@ public partial class HUD : CanvasLayer
         bool isActive = slotIndex == activeSlotIndex;
         slot.AddThemeStyleboxOverride("panel", isActive ? _activeSlotStyle : _inactiveSlotStyle);
         slot.SelfModulate = Colors.White;
+    }
+
+    private void UpdateAnimatedInventoryIcons()
+    {
+        if (_gameManager == null)
+        {
+            return;
+        }
+
+        for (int slotIndex = 0; slotIndex < GameManager.InventorySlotCount; slotIndex += 1)
+        {
+            var icon = _inventoryIcons[slotIndex];
+            var item = _gameManager.GetInventorySlot(slotIndex);
+
+            if (icon == null || item == null)
+            {
+                continue;
+            }
+
+            icon.Texture = GetInventoryTexture(item);
+        }
+    }
+
+    private Texture2D? GetInventoryTexture(InventoryItem? item)
+    {
+        if (item == null)
+        {
+            return null;
+        }
+
+        if (item.AnimationFrames is { Count: > 0 } animationFrames)
+        {
+            int frameIndex = (int)(_inventoryAnimationTime * item.AnimationSpeed) % animationFrames.Count;
+            return animationFrames[frameIndex];
+        }
+
+        return item.Icon;
     }
 
     private void ConfigureInventorySlotStyles()

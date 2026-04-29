@@ -12,12 +12,12 @@ public partial class ShopUI : CanvasLayer
     private const int HealAmount = 25;
     private const string ThornBladeId = "thorn_blade";
     private const string VineWhipId = "vine_whip";
-    private const string SporeBurstId = "spore_burst";
+    private const string PlantGunId = "plant_gun";
 
     private Button? _buyHealButton;
     private Button? _buyThornBladeButton;
     private Button? _buyVineWhipButton;
-    private Button? _buySporeBurstButton;
+    private Button? _buyPlantGunButton;
     private Button? _closeButton;
     private Label? _statusLabel;
     private PanelContainer? _panel;
@@ -30,7 +30,7 @@ public partial class ShopUI : CanvasLayer
         _buyHealButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/BuyHealButton");
         _buyThornBladeButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/BuyThornBladeButton");
         _buyVineWhipButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/BuyVineWhipButton");
-        _buySporeBurstButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/BuySporeBurstButton");
+        _buyPlantGunButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/BuyPlantGunButton");
         _closeButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/CloseButton");
         _statusLabel = GetNodeOrNull<Label>("PanelContainer/VBoxContainer/StatusLabel");
         _gameManager = GetNodeOrNull<GameManager>("/root/GameManager");
@@ -50,9 +50,9 @@ public partial class ShopUI : CanvasLayer
             _buyVineWhipButton.Pressed += BuyVineWhip;
         }
 
-        if (_buySporeBurstButton != null)
+        if (_buyPlantGunButton != null)
         {
-            _buySporeBurstButton.Pressed += BuySporeBurst;
+            _buyPlantGunButton.Pressed += BuyPlantGun;
         }
 
         if (_closeButton != null)
@@ -127,9 +127,9 @@ public partial class ShopUI : CanvasLayer
         TryBuyWeapon(VineWhipId);
     }
 
-    private void BuySporeBurst()
+    private void BuyPlantGun()
     {
-        TryBuyWeapon(SporeBurstId);
+        TryBuyWeapon(PlantGunId);
     }
 
     private void TryBuyWeapon(string weaponId)
@@ -190,7 +190,7 @@ public partial class ShopUI : CanvasLayer
     {
         UpdateWeaponButton(_buyThornBladeButton, ThornBladeId);
         UpdateWeaponButton(_buyVineWhipButton, VineWhipId);
-        UpdateWeaponButton(_buySporeBurstButton, SporeBurstId);
+        UpdateWeaponButton(_buyPlantGunButton, PlantGunId);
     }
 
     private void UpdateWeaponButton(Button? button, string weaponId)

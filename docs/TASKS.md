@@ -31,21 +31,21 @@
 - [x] Player attack system
 - [x] Collision system
 - [x] Basic enemy
-- [ ] Combat feedback
+- [x] Combat feedback
 
 ### Gameplay
 - [x] 3–5 enemy types
-- [ ] Weapon switching
+- [x] Weapon switching
 - [x] Water currency
 - [ ] Shop system
 
 ### Levels
 - [x] Level 1
-- [ ] Level 2
-- [ ] Level 3
+- [x] Level 2
+- [x] Level 3
 
 ### Bosses
-- [ ] Boss 1
+- [x] Boss 1
 - [ ] Boss 2
 - [ ] Boss 3
 
@@ -57,4 +57,4 @@
 ### Polish
 - [ ] Sound effects
 - [ ] Background music
-- [ ] Animations
+- [x] Animations
