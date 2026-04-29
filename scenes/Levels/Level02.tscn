@@ -728,6 +728,7 @@ shape = SubResource("RectangleShape2D_onvx3")
 [node name="LevelExit" type="Area2D" parent="World/Ground"]
 position = Vector2(8580, -1758)
 script = ExtResource("6_exit")
+CompletedLevelNumber = 2
 PromptLabelPath = NodePath("PromptLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground/LevelExit"]
@@ -746,8 +747,7 @@ offset_top = -110.0
 offset_right = 382.0
 offset_bottom = -58.0
 theme_override_font_sizes/font_size = 14
-text = "EXIT
-Return Home"
+text = "EXIT\nReturn Home"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true

@@ -3,42 +3,9 @@
 [ext_resource type="Script" uid="uid://bsersv3dl0w8r" path="res://Scripts/Enemies/Boss.cs" id="1_boss"]
 [ext_resource type="Script" uid="uid://b5bmo44oevi0g" path="res://Scripts/Enemies/BossAI.cs" id="2_bossai"]
 [ext_resource type="Texture2D" uid="uid://dt5478p3hhsqr" path="res://assets/bosses/boss.png" id="3_front"]
-<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://c8x1c4ycerxo5" path="res://assets/bosses/boss2.png" id="4_move1"]
 [ext_resource type="Texture2D" uid="uid://hyy7i7kktxwj" path="res://assets/bosses/boss3.png" id="5_move2"]
 [ext_resource type="Texture2D" uid="uid://bbgyosm0k2hsq" path="res://assets/bosses/boss4.png" id="6_move3"]
-=======
-[ext_resource type="Texture2D" path="res://assets/bosses/boss2.png" id="4_move1"]
-[ext_resource type="Texture2D" path="res://assets/bosses/boss3.png" id="5_move2"]
-[ext_resource type="Texture2D" path="res://assets/bosses/boss4.png" id="6_move3"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
-radius = 24.0
-height = 64.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
-radius = 66.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
-bg_color = Color(0.2, 0.8, 0.2, 1.0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.1, 0.6, 0.1, 1.0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_healthbg"]
-bg_color = Color(0.1, 0.1, 0.1, 1.0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.3, 0.3, 0.3, 1.0)
-
-[sub_resource type="Theme" id="Theme_health"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_healthbg")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_health")
->>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_boss"]
 animations = [{
@@ -95,11 +62,8 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_health")
 [node name="Boss" type="CharacterBody2D"]
 scale = Vector2(2.5, 2.5)
 script = ExtResource("1_boss")
-<<<<<<< HEAD
-=======
 MaxHealth = 200
 WaterDropAmount = 75
->>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -126,8 +90,6 @@ value = 100.0
 
 [node name="BossAI" type="Node" parent="."]
 script = ExtResource("2_bossai")
-<<<<<<< HEAD
-=======
 Phase1PatrolSpeed = 84.0
 Phase2PatrolSpeed = 132.0
 PatrolDistance = 220.0
@@ -148,4 +110,3 @@ AttackDamage = 18
 Phase2AttackDamage = 24
 Phase2LungeSpeed = 220.0
 ChaseSpeedMultiplier = 1.75
->>>>>>> 4e74cd27062c1ba2025c5b35f7456b4f683cbd4a
